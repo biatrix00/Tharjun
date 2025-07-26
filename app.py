@@ -257,34 +257,86 @@ class MotivAgentWeb:
         }
         
         .roast-message {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(251, 113, 133, 0.1) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-            color: #f1f5f9 !important;
+            background: linear-gradient(135deg, rgba(255, 59, 48, 0.15) 0%, rgba(255, 149, 0, 0.1) 100%) !important;
+            backdrop-filter: blur(15px) !important;
+            border: 2px solid rgba(255, 59, 48, 0.4) !important;
+            padding: 1.8rem !important;
+            border-radius: 16px !important;
+            margin: 1.5rem 0 !important;
+            color: #ffffff !important;
             box-shadow: 
-                0 8px 25px rgba(239, 68, 68, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
+                0 12px 35px rgba(255, 59, 48, 0.25),
+                0 4px 15px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            font-size: 1.05rem !important;
+            line-height: 1.6 !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+            animation: roastGlow 0.6s ease-out !important;
+        }
+        
+        @keyframes roastGlow {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+                box-shadow: 0 0 0 rgba(255, 59, 48, 0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                box-shadow: 
+                    0 12px 35px rgba(255, 59, 48, 0.25),
+                    0 4px 15px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            }
         }
         
         .roast-message::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, #ef4444, #f97316);
-            border-radius: 0 2px 2px 0;
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 6px !important;
+            height: 100% !important;
+            background: linear-gradient(180deg, #ff3b30, #ff9500, #ff3b30) !important;
+            border-radius: 0 3px 3px 0 !important;
+            box-shadow: 0 0 15px rgba(255, 59, 48, 0.5) !important;
+        }
+        
+        .roast-message::after {
+            content: '🎭' !important;
+            position: absolute !important;
+            top: 1rem !important;
+            right: 1rem !important;
+            font-size: 1.5rem !important;
+            opacity: 0.7 !important;
+            animation: float 3s ease-in-out infinite !important;
         }
         
         .roast-message strong {
-            color: #fbbf24 !important;
-            text-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+            color: #ffcc02 !important;
+            text-shadow: 0 2px 10px rgba(255, 204, 2, 0.4) !important;
+            font-weight: 700 !important;
+            font-size: 1.1rem !important;
+            display: inline-block !important;
+            margin-bottom: 0.5rem !important;
+        }
+        
+        .roast-message br {
+            line-height: 2 !important;
+        }
+        
+        /* Force override any conflicting styles */
+        div.roast-message,
+        div[class*="roast-message"] {
+            background: linear-gradient(135deg, rgba(255, 59, 48, 0.15) 0%, rgba(255, 149, 0, 0.1) 100%) !important;
+            border: 2px solid rgba(255, 59, 48, 0.4) !important;
+            color: #ffffff !important;
+            padding: 1.8rem !important;
+            border-radius: 16px !important;
+            margin: 1.5rem 0 !important;
+            font-size: 1.05rem !important;
         }
         
         .sidebar-content {
@@ -1007,27 +1059,52 @@ class MotivAgentWeb:
                 confidence_display = "🎯 High" if confidence > 0.7 else "🤔 Medium" if confidence > 0.3 else "❓ Low"
                 
                 st.markdown(f"""
-                <div class="activity-card {productivity_class}">
-                    <h4>📌 Activity {i}: {activity['text']}</h4>
-                    <div style="display: flex; justify-content: space-between; margin: 1rem 0;">
-                        <div>
-                            <strong>Category:</strong> {activity['category'].title()}{subcategory_display}<br>
-                            <strong>Duration:</strong> {activity['duration']} minutes<br>
-                            <strong>Intensity:</strong> {activity['intensity'].title()}<br>
-                            <strong>Mood:</strong> {mood_display} {activity.get('mood', 'neutral').title()}
+                <div class="activity-card {productivity_class}" style="animation: slideInUp 0.6s ease-out; animation-delay: {(i-1)*0.1}s; animation-fill-mode: both;">
+                    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 1rem; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                            📌
                         </div>
-                        <div style="text-align: right;">
-                            <div style="color: #ff6b6b;"><strong>{activity['calories_burned']} kcal</strong></div>
-                            <div style="color: #667eea;"><strong>{activity['productivity_score']}/10</strong></div>
-                            <div style="color: #666; font-size: 0.8em;">Parse: {confidence_display}</div>
+                        <h4 style="margin: 0; flex: 1; color: #f1f5f9; font-size: 1.3rem; font-weight: 600;">Activity {i}: {activity['text']}</h4>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin: 1.5rem 0; background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="color: #e2e8f0;">
+                            <div style="margin-bottom: 0.8rem;"><span style="color: #94a3b8; font-weight: 500;">Category:</span> <span style="color: #60a5fa; font-weight: 600;">{activity['category'].title()}{subcategory_display}</span></div>
+                            <div style="margin-bottom: 0.8rem;"><span style="color: #94a3b8; font-weight: 500;">Duration:</span> <span style="color: #34d399; font-weight: 600;">{activity['duration']} minutes</span></div>
+                            <div style="margin-bottom: 0.8rem;"><span style="color: #94a3b8; font-weight: 500;">Intensity:</span> <span style="color: #fbbf24; font-weight: 600;">{activity['intensity'].title()}</span></div>
+                            <div><span style="color: #94a3b8; font-weight: 500;">Mood:</span> <span style="font-weight: 600;">{mood_display} {activity.get('mood', 'neutral').title()}</span></div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="background: linear-gradient(135deg, #ef4444 0%, #f97316 100%); color: white; padding: 0.8rem; border-radius: 12px; margin-bottom: 1rem; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);">
+                                <div style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.2rem;">{activity['calories_burned']}</div>
+                                <div style="font-size: 0.9rem; opacity: 0.9;">calories</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.8rem; border-radius: 12px; margin-bottom: 0.5rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                                <div style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.2rem;">{activity['productivity_score']}/10</div>
+                                <div style="font-size: 0.9rem; opacity: 0.9;">productivity</div>
+                            </div>
+                            <div style="color: #64748b; font-size: 0.8rem; opacity: 0.8;">Parse: {confidence_display}</div>
                         </div>
                     </div>
-                    {f'<div style="margin: 0.5rem 0; color: #666; font-size: 0.9em;">{" • ".join(context_info)}</div>' if context_info else ''}
+                    
+                    {f'<div style="margin: 1rem 0; color: #94a3b8; font-size: 0.95rem; padding: 0.8rem; background: rgba(255, 255, 255, 0.02); border-radius: 8px; border-left: 3px solid #667eea;"><strong>Context:</strong> {" • ".join(context_info)}</div>' if context_info else ''}
+                    
                     <div class="roast-message">
                         <strong>🎭 RoastBot Says:</strong><br>
                         {activity['motivation_message']}
                     </div>
                 </div>
+                
+                @keyframes slideInUp {{
+                    0% {{
+                        opacity: 0;
+                        transform: translateY(30px) scale(0.95);
+                    }}
+                    100% {{
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }}
+                }}
                 """, unsafe_allow_html=True)
 
     def weekly_insights(self):
