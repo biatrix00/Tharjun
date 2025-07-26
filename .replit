@@ -1,6 +1,7 @@
 run = "run"
 [nix]
 channel = "stable-25_05"
+packages = ["run"]
 
 [workflows]
 runButton = "Run MotivAgent"
