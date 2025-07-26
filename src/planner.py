@@ -302,11 +302,17 @@ class Planner:
                         hours = float(match[0]) if match[0] else 0
                         minutes = int(match[1]) if match[1] else 0
                         return int(hours * 60 + minutes)
-                    elif len(match) == 2:  # Range (e.g., "2-3 hours")
-                        start = float(match[0])
-                        end = float(match[1])
-                        avg = (start + end) / 2
-                        return int(avg * 60) if 'hour' in pattern else int(avg)
+                    elif len(match) == 2 and match[0] and match[1]:  # Range (e.g., "2-3 hours")
+                        try:
+                            start = float(match[0])
+                            end = float(match[1])
+                            avg = (start + end) / 2
+                            return int(avg * 60) if 'hour' in pattern else int(avg)
+                        except ValueError:
+                            # If conversion fails, fall back to first number only
+                            if match[0]:
+                                duration = float(match[0])
+                                return int(duration * 60) if 'hour' in pattern else int(duration)
                 else:
                     # Single number
                     duration = float(matches[0])
