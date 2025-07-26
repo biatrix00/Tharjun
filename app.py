@@ -516,49 +516,34 @@ class MotivAgentWeb:
             
             streak_info = st.session_state.memory.get_streak_info()
             
-            # Enhanced stacked metrics with scroll-inspired animations
-            st.markdown(f"""
-            <div class="scroll-stack-container">
-                <div class="stack-card" data-index="0">
-                    <div class="card-glow"></div>
-                    <div class="metric-icon">🔥</div>
-                    <div class="metric-value">{streak_info['current_streak']}</div>
-                    <div class="metric-label">Current Streak</div>
-                    <div class="card-progress" style="width: {min(streak_info['current_streak'] * 10, 100)}%"></div>
-                </div>
-                
-                <div class="stack-card" data-index="1">
-                    <div class="card-glow"></div>
-                    <div class="metric-icon">📊</div>
-                    <div class="metric-value">{streak_info['total_sessions']}</div>
-                    <div class="metric-label">Total Sessions</div>
-                    <div class="card-progress" style="width: {min(streak_info['total_sessions'] * 5, 100)}%"></div>
-                </div>
-                
-                <div class="stack-card" data-index="2">
-                    <div class="card-glow"></div>
-                    <div class="metric-icon">🏆</div>
-                    <div class="metric-value">{streak_info['longest_streak']}</div>
-                    <div class="metric-label">Best Streak</div>
-                    <div class="card-progress" style="width: {min(streak_info['longest_streak'] * 10, 100)}%"></div>
-                </div>
-            """, unsafe_allow_html=True)
+            # Native Streamlit metrics with enhanced styling
+            st.markdown("### 🔥 Current Streak")
+            st.metric(
+                label="Days", 
+                value=streak_info['current_streak'],
+                delta=None if streak_info['current_streak'] == 0 else "🔥 On fire!"
+            )
+            
+            st.markdown("### 📊 Total Sessions")
+            st.metric(
+                label="Activities Logged", 
+                value=streak_info['total_sessions'],
+                delta=f"+{streak_info.get('sessions_this_week', 0)} this week"
+            )
+            
+            st.markdown("### 🏆 Best Streak")
+            st.metric(
+                label="Personal Record", 
+                value=streak_info['longest_streak'],
+                delta="Days" if streak_info['longest_streak'] > 1 else "Day"
+            )
             
             if streak_info['is_streak_broken']:
-                st.markdown(f"""
-                <div class="stack-card warning-card" data-index="3">
-                    <div class="card-glow warning-glow"></div>
-                    <div class="metric-icon">⏰</div>
-                    <div class="metric-value">{streak_info['days_inactive']}</div>
-                    <div class="metric-label">Days Inactive</div>
-                    <div class="warning-pulse"></div>
-                </div>
-                """, unsafe_allow_html=True)
+                st.markdown("### ⏰ Days Inactive")
+                st.error(f"**{streak_info['days_inactive']} days** without activity")
+                st.markdown("💡 *Time to get back on track!*")
             
-            st.markdown("""
-            </div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
             
             # Progress visualization
             if streak_info['current_streak'] > 0:
