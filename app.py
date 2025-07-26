@@ -1120,17 +1120,22 @@ class MotivAgentWeb:
                     """, unsafe_allow_html=True)
                 </div>
                 
-                @keyframes slideInUp {{
-                    0% {{
+                """, unsafe_allow_html=True)
+                
+                st.markdown("""
+                <style>
+                @keyframes slideInUp {
+                    0% {
                         opacity: 0;
                         transform: translateY(30px) scale(0.95);
-                    }}
-                    100% {{
+                    }
+                    100% {
                         opacity: 1;
                         transform: translateY(0) scale(1);
-                    }}
-                }}
-                """, unsafe_allow_html=True)
+                    }
+                }
+                </style>
+                """, unsafe_allow_html=True)</old_str>
 
     def weekly_insights(self):
         st.markdown("### Weekly Overview")
