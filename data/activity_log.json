@@ -25,5 +25,22 @@
     ],
     "total_calories": 270,
     "avg_productivity": 8.5
+  },
+  {
+    "date": "2025-07-26T10:11:34.755570",
+    "activities": [
+      {
+        "text": "lalalallallllalla",
+        "category": "other",
+        "duration": 30,
+        "intensity": "medium",
+        "confidence": 0.0,
+        "calories_burned": 30,
+        "motivation_message": "Thirty minutes of \"lalalallallllalla\"?  Impressive dedication to the art of nothingness, my friend.  Clearly a master of... doing absolutely nothing.",
+        "productivity_score": 3
+      }
+    ],
+    "total_calories": 30,
+    "avg_productivity": 3.0
   }
 ]
