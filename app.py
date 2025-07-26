@@ -30,176 +30,233 @@ class MotivAgentWeb:
             initial_sidebar_state="expanded"
         )
         
-        # Minimalist CSS styling
+        # Enhanced minimalist CSS with better contrast and harmony
         st.markdown("""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
         
         html, body, [class*="css"] {
             font-family: 'Inter', sans-serif;
-            background-color: #fafafa;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
         }
         
         .main-header {
-            background: #ffffff;
-            padding: 3rem 2rem;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
             margin-bottom: 2rem;
             text-align: center;
-            border: 1px solid #e8e8e8;
+            border: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
         }
         
         .main-header h1 {
-            color: #2c3e50;
+            color: #1a202c;
             margin: 0;
             font-size: 2.5rem;
-            font-weight: 300;
+            font-weight: 600;
             letter-spacing: -1px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .main-header h3 {
-            color: #7f8c8d;
+            color: #4a5568;
             margin: 0.5rem 0;
             font-weight: 400;
             font-size: 1.1rem;
         }
         
         .main-header p {
-            color: #95a5a6;
+            color: #718096;
             margin: 0;
             font-weight: 300;
             font-style: italic;
         }
         
         .metric-container {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 1.5rem;
-            border-radius: 6px;
-            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            border: none;
             text-align: center;
             margin: 0.5rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .metric-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
         
         .metric-container h2 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin: 0 0 0.5rem 0;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
         
         .metric-container h3 {
-            color: #2c3e50;
+            color: #2d3748;
             margin: 0.5rem 0;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 1.4rem;
         }
         
         .metric-container p {
-            color: #7f8c8d;
+            color: #4a5568;
             margin: 0;
             font-size: 0.9rem;
-            font-weight: 400;
+            font-weight: 500;
         }
         
         .activity-card {
-            background: #ffffff;
-            border: 1px solid #e8e8e8;
-            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 12px;
             padding: 1.5rem;
             margin: 1rem 0;
-            border-left: 3px solid #3498db;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .activity-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
         
         .activity-card h4 {
-            color: #2c3e50;
+            color: #1a202c;
             margin: 0 0 1rem 0;
-            font-weight: 500;
+            font-weight: 600;
         }
         
         .productivity-high {
-            border-left-color: #27ae60 !important;
+            border-left-color: #48bb78 !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(72, 187, 120, 0.05) 100%);
         }
         
         .productivity-medium {
-            border-left-color: #f39c12 !important;
+            border-left-color: #ed8936 !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(237, 137, 54, 0.05) 100%);
         }
         
         .productivity-low {
-            border-left-color: #e74c3c !important;
+            border-left-color: #f56565 !important;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 101, 101, 0.05) 100%);
         }
         
         .roast-message {
-            background: #f8f9fa;
+            background: linear-gradient(135deg, #fef5e7 0%, #fed7d7 100%);
             padding: 1rem;
-            border-radius: 6px;
-            border-left: 3px solid #e74c3c;
+            border-radius: 8px;
+            border-left: 3px solid #f56565;
             margin: 1rem 0;
-            color: #2c3e50;
+            color: #2d3748;
+            box-shadow: 0 2px 10px rgba(245, 101, 101, 0.1);
         }
         
         .sidebar-content {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 1.5rem;
-            border-radius: 6px;
-            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            border: none;
             margin-bottom: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
         }
         
         .insight-card {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 1.5rem;
-            border-radius: 6px;
+            border-radius: 12px;
             margin: 1rem 0;
-            border: 1px solid #e8e8e8;
-            border-left: 3px solid #9b59b6;
+            border: none;
+            border-left: 4px solid #805ad5;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(128, 90, 213, 0.05) 100%);
         }
         
         .insight-card h3 {
-            color: #2c3e50;
+            color: #1a202c;
             margin: 0 0 1rem 0;
-            font-weight: 500;
+            font-weight: 600;
         }
         
         .stTabs [data-baseweb="tab-list"] {
-            gap: 1rem;
+            gap: 0.5rem;
             background: none;
+            border-bottom: none;
         }
         
         .stTabs [data-baseweb="tab"] {
-            background: #ffffff;
-            color: #7f8c8d;
-            border: 1px solid #e8e8e8;
-            border-radius: 6px 6px 0 0;
-            font-weight: 400;
+            background: rgba(255, 255, 255, 0.7);
+            color: #4a5568;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
         }
         
         .stTabs [aria-selected="true"] {
-            background: #3498db;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #ffffff;
-            border-color: #3498db;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
         
-        /* Streamlit component overrides */
+        /* Enhanced Streamlit component overrides */
         .stButton > button {
-            background: #3498db;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             padding: 0.75rem 1.5rem;
-            font-weight: 400;
-            transition: background-color 0.2s ease;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
         }
         
         .stButton > button:hover {
-            background: #2980b9;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
         }
         
         .stTextArea > div > div > textarea {
-            border: 1px solid #e8e8e8;
-            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
             font-family: 'Inter', sans-serif;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
         }
         
         .stSelectbox > div > div > div {
-            border: 1px solid #e8e8e8;
-            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .stRadio > div {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Enhanced progress bars */
+        .stProgress > div > div > div > div {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         </style>
         """, unsafe_allow_html=True)
