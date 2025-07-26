@@ -105,7 +105,7 @@ Generate a single roast/motivation message:
         return prompt
     
     def _call_gemini_api(self, prompt: str) -> str:
-        """Call Gemini API with improved error handling"""
+        """Call Gemini API"""
         headers = {
             "Content-Type": "application/json",
         }
@@ -119,30 +119,13 @@ Generate a single roast/motivation message:
         }
         
         url = f"{self.base_url}?key={self.api_key}"
+        response = requests.post(url, headers=headers, json=data)
         
-        try:
-            response = requests.post(url, headers=headers, json=data, timeout=10)
-            
-            if response.status_code == 200:
-                result = response.json()
-                if 'candidates' in result and len(result['candidates']) > 0:
-                    return result['candidates'][0]['content']['parts'][0]['text'].strip()
-                else:
-                    raise Exception("No candidates in API response")
-            elif response.status_code == 429:
-                raise Exception("API rate limit exceeded - try again later")
-            elif response.status_code == 400:
-                raise Exception("Invalid API request - check your prompt")
-            else:
-                raise Exception(f"API call failed: {response.status_code} - {response.text}")
-                
-        except requests.exceptions.Timeout:
-            raise Exception("API request timed out")
-        except requests.exceptions.ConnectionError:
-            raise Exception("Failed to connect to Gemini API")
-        except Exception as e:
-            print(f"⚠️ Gemini API Error: {e}")
-            raise e
+        if response.status_code == 200:
+            result = response.json()
+            return result['candidates'][0]['content']['parts'][0]['text'].strip()
+        else:
+            raise Exception(f"API call failed: {response.status_code}")
     
     def _get_fallback_motivation(self, activity: Dict[str, Any]) -> str:
         """Fallback motivational messages when API is unavailable"""

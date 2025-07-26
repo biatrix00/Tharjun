@@ -6,10 +6,6 @@ MotivAgent solves the problem of boring, generic fitness and productivity tracki
 
 Traditional apps are bland and forgettable. MotivAgent uses **AI-powered roasting** to create memorable, funny interactions that encourage consistent habit tracking through entertainment value.
 
-## 🚀 Live Demo
-**Web Interface:** [Try MotivAgent Live](https://your-repl-name.replit.app)
-**CLI Version:** Run `python main.py` for command-line interface
-
 ## Demo Walkthrough
 
 **📺 Video Link:** https://your.video.link.here
