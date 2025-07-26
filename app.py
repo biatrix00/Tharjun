@@ -640,8 +640,7 @@ class MotivAgentWeb:
         }
 
         .warning-card {
-            background: linear-gradient(135deg, rgba```python
-(254, 242, 242, 0.9) 0%, rgba(254, 226, 226, 0.8) 100%);
+            background: linear-gradient(135deg, rgba(254, 242, 242, 0.9) 0%, rgba(254, 226, 226, 0.8) 100%);
             border-color: rgba(245, 101, 101, 0.3);
         }
 
@@ -803,6 +802,18 @@ class MotivAgentWeb:
 
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #5a6fd8 0%, #6b46c1 100%);
+        }
+
+        /* Keyframe animation for sliding in elements */
+        @keyframes slideInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
         </style>
         """, unsafe_allow_html=True)
