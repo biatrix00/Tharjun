@@ -11,9 +11,9 @@ Traditional fitness and productivity apps are **boring, generic, and forgettable
 
 ## 🚀 Live Demo
 
-- **Web Interface**: [Try MotivAgent Live](https://replit.com/@your-username/MotivAgent)
+- **Web Interface**: Still under process...
 - **CLI Version**: Run `python main.py` for command-line interface
-- **Demo Video**: [Watch 5-minute Demo](DEMO.md)
+- **Demo Video**: [GO through Demo](DEMO.md)
 
 ## ✨ Key Features
 
