@@ -3,6 +3,10 @@ import os
 import requests
 import json
 from typing import List, Dict, Any
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 class Executor:
     def __init__(self):
