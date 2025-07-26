@@ -149,5 +149,35 @@
     ],
     "total_calories": 300,
     "avg_productivity": 3.0
+  },
+  {
+    "date": "2025-07-26T16:12:46.297827",
+    "activities": [
+      {
+        "text": "2 hours sleep",
+        "category": "habits",
+        "subcategory": "general",
+        "duration": 120,
+        "intensity": "low",
+        "mood": "neutral",
+        "context": {},
+        "confidence": 0.576923076923077,
+        "parsed_elements": {
+          "has_duration": true,
+          "has_mood_indicator": false,
+          "has_intensity_modifier": true,
+          "has_location": false,
+          "social_activity": false
+        },
+        "sequence_order": 1,
+        "is_first": true,
+        "is_last": true,
+        "calories_burned": 192,
+        "motivation_message": "Two hours of sleep?  Honey, that's less productive than a sloth on a sedative.  But hey, at least you burned a whopping 192 calories \u2013  enough to fuel a single glance at your phone. Now get some REAL rest, champion!",
+        "productivity_score": 6
+      }
+    ],
+    "total_calories": 192,
+    "avg_productivity": 6.0
   }
 ]
