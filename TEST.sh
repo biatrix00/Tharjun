@@ -6,13 +6,13 @@ echo "=========================="
 
 # Test 1: Direct CLI usage
 echo "Test 1: Direct input mode"
-python main.py "walked 20 minutes and watched 3 episodes of One Piece"
+python3 main.py "walked 20 minutes and watched 3 episodes of One Piece"
 
 echo -e "\n\n"
 
 # Test 2: Interactive mode with predefined inputs
 echo "Test 2: Module imports"
-python -c "
+python3 -c "
 from src.planner import Planner
 from src.executor import Executor
 from src.memory import Memory
