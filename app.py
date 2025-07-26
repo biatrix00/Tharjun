@@ -253,10 +253,34 @@ class MotivAgentWeb:
         }
         
         .stRadio > div {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 1rem;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(203, 213, 224, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stRadio > div > label {
+            background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            margin: 0.25rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        
+        .stRadio > div > label:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .stRadio input[type="radio"]:checked + div {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
         
         /* Enhanced progress bars */
