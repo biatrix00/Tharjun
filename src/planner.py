@@ -121,3 +121,118 @@ class Planner:
             'subtasks': [text],
             'timestamp': datetime.now().isoformat()
         }
+import re
+from typing import List, Dict, Any
+
+class Planner:
+    def __init__(self):
+        # Activity keywords for classification
+        self.activity_keywords = {
+            'exercise': ['workout', 'gym', 'run', 'jog', 'bike', 'swim', 'yoga', 'pilates', 'cardio', 'weights', 'lift'],
+            'walk': ['walk', 'walking', 'stroll', 'hike', 'hiking'],
+            'study': ['study', 'read', 'learn', 'practice', 'homework', 'course', 'tutorial', 'book'],
+            'work': ['work', 'project', 'meeting', 'code', 'coding', 'program', 'develop'],
+            'entertainment': ['watch', 'movie', 'tv', 'netflix', 'show', 'episode', 'game', 'gaming', 'video'],
+            'habits': ['meditate', 'journal', 'clean', 'organize', 'cook', 'meal prep'],
+            'social': ['friend', 'family', 'date', 'party', 'hangout', 'call', 'text'],
+        }
+        
+        # Time extraction patterns
+        self.time_patterns = [
+            (r'(\d+)\s*hours?', lambda x: int(x) * 60),
+            (r'(\d+)\s*hrs?', lambda x: int(x) * 60),
+            (r'(\d+)\s*h', lambda x: int(x) * 60),
+            (r'(\d+)\s*minutes?', lambda x: int(x)),
+            (r'(\d+)\s*mins?', lambda x: int(x)),
+            (r'(\d+)\s*m(?!\w)', lambda x: int(x)),
+            (r'(\d+)\s*episodes?', lambda x: int(x) * 25),  # Assume 25 min per episode
+            (r'(\d+)\s*shows?', lambda x: int(x) * 45),     # Assume 45 min per show
+        ]
+    
+    def parse_input(self, user_input: str) -> List[Dict[str, Any]]:
+        """Parse user input and extract activities"""
+        if not user_input.strip():
+            return []
+        
+        # Split by common delimiters
+        activity_chunks = self._split_activities(user_input.lower())
+        
+        activities = []
+        for chunk in activity_chunks:
+            activity = self._parse_single_activity(chunk)
+            if activity:
+                activities.append(activity)
+        
+        return activities
+    
+    def _split_activities(self, text: str) -> List[str]:
+        """Split text into individual activity chunks"""
+        # Split on common delimiters
+        delimiters = [' and ', ', ', '; ', ' then ', ' also ']
+        
+        chunks = [text]
+        for delimiter in delimiters:
+            new_chunks = []
+            for chunk in chunks:
+                new_chunks.extend(chunk.split(delimiter))
+            chunks = new_chunks
+        
+        return [chunk.strip() for chunk in chunks if chunk.strip()]
+    
+    def _parse_single_activity(self, text: str) -> Dict[str, Any]:
+        """Parse a single activity chunk"""
+        # Extract duration
+        duration = self._extract_duration(text)
+        
+        # Classify activity
+        category = self._classify_activity(text)
+        
+        # Determine intensity
+        intensity = self._determine_intensity(text, category)
+        
+        return {
+            'text': text,
+            'category': category,
+            'duration': duration,
+            'intensity': intensity,
+            'raw_input': text
+        }
+    
+    def _extract_duration(self, text: str) -> int:
+        """Extract duration in minutes from text"""
+        for pattern, converter in self.time_patterns:
+            match = re.search(pattern, text)
+            if match:
+                return converter(match.group(1))
+        
+        # Default durations based on activity type
+        if any(word in text for word in ['episode', 'show', 'movie']):
+            return 25  # Default episode length
+        elif any(word in text for word in ['workout', 'gym', 'exercise']):
+            return 45  # Default workout
+        elif any(word in text for word in ['walk', 'run', 'jog']):
+            return 30  # Default walk/run
+        else:
+            return 30  # Default activity length
+    
+    def _classify_activity(self, text: str) -> str:
+        """Classify activity into categories"""
+        for category, keywords in self.activity_keywords.items():
+            if any(keyword in text for keyword in keywords):
+                return category
+        
+        return 'other'
+    
+    def _determine_intensity(self, text: str, category: str) -> str:
+        """Determine activity intensity"""
+        high_intensity_words = ['intense', 'hard', 'difficult', 'sprint', 'hiit']
+        low_intensity_words = ['easy', 'light', 'gentle', 'slow', 'casual']
+        
+        if any(word in text for word in high_intensity_words):
+            return 'high'
+        elif any(word in text for word in low_intensity_words):
+            return 'low'
+        elif category in ['exercise', 'work']:
+            return 'medium'
+        else:
+            return 'low'

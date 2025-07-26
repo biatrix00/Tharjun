@@ -200,3 +200,165 @@ class Insight:
             suggestions.append("Great exercise habit! Maybe add some learning activities?")
         
         return suggestions if suggestions else ["You're doing fine! Keep being awesome! 🌟"]
+import json
+from datetime import datetime, timedelta
+from typing import List, Dict, Any
+from collections import defaultdict, Counter
+
+class Insight:
+    def __init__(self, memory):
+        self.memory = memory
+    
+    def analyze_weekly_trends(self) -> Dict[str, Any]:
+        """Analyze weekly activity trends"""
+        history = self.memory.get_activity_history(days=7)
+        
+        if not history:
+            return {
+                'trend': 'no data',
+                'trend_strength': 'none',
+                'roast_summary': "No data to roast you with... yet. 🤔",
+                'insights': ["Start logging activities to get meaningful insights!"],
+                'category_analysis': {'breakdown': {}}
+            }
+        
+        # Calculate trend
+        trend_data = self._calculate_productivity_trend(history)
+        
+        # Generate roast summary
+        roast_summary = self._generate_weekly_roast(history, trend_data)
+        
+        # Category analysis
+        category_analysis = self._analyze_categories(history)
+        
+        # General insights
+        insights = self._generate_insights(history, trend_data, category_analysis)
+        
+        return {
+            'trend': trend_data['direction'],
+            'trend_strength': trend_data['strength'],
+            'roast_summary': roast_summary,
+            'insights': insights,
+            'category_analysis': category_analysis
+        }
+    
+    def _calculate_productivity_trend(self, history: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Calculate productivity trend over time"""
+        if len(history) < 2:
+            return {'direction': 'stable', 'strength': 'weak'}
+        
+        # Get productivity scores over time
+        scores = [session.get('avg_productivity', 0) for session in history]
+        
+        # Simple trend calculation
+        first_half = scores[:len(scores)//2]
+        second_half = scores[len(scores)//2:]
+        
+        avg_first = sum(first_half) / len(first_half)
+        avg_second = sum(second_half) / len(second_half)
+        
+        diff = avg_second - avg_first
+        
+        if diff > 1:
+            return {'direction': 'improving', 'strength': 'strong' if diff > 2 else 'moderate'}
+        elif diff < -1:
+            return {'direction': 'declining', 'strength': 'strong' if diff < -2 else 'moderate'}
+        else:
+            return {'direction': 'stable', 'strength': 'weak'}
+    
+    def _generate_weekly_roast(self, history: List[Dict[str, Any]], trend_data: Dict[str, Any]) -> str:
+        """Generate a weekly roast summary"""
+        total_sessions = len(history)
+        avg_productivity = sum(s.get('avg_productivity', 0) for s in history) / len(history)
+        
+        if avg_productivity >= 7:
+            if trend_data['direction'] == 'improving':
+                return "Look at you, actually getting your life together! Color me impressed. 👏"
+            else:
+                return "Solid week of productivity! Don't let it go to your head though. 💪"
+        elif avg_productivity >= 4:
+            if trend_data['direction'] == 'declining':
+                return "Started strong but fizzled out? Classic. At least you're consistent... at being inconsistent. 📉"
+            else:
+                return "Mediocre but trying! That's... something, I guess. Baby steps count too. 👶"
+        else:
+            return "This week was brought to you by the letter 'L' for 'Lazy'. Impressive dedication to slacking! 🏆"
+    
+    def _analyze_categories(self, history: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Analyze activity categories"""
+        category_stats = defaultdict(lambda: {'count': 0, 'total_time': 0, 'total_calories': 0})
+        
+        for session in history:
+            for activity in session.get('activities', []):
+                category = activity.get('category', 'other')
+                category_stats[category]['count'] += 1
+                category_stats[category]['total_time'] += activity.get('duration', 0)
+                category_stats[category]['total_calories'] += activity.get('calories_burned', 0)
+        
+        return {
+            'breakdown': dict(category_stats),
+            'most_common': max(category_stats.keys(), key=lambda k: category_stats[k]['count']) if category_stats else 'none'
+        }
+    
+    def _generate_insights(self, history: List[Dict[str, Any]], trend_data: Dict[str, Any], category_analysis: Dict[str, Any]) -> List[str]:
+        """Generate actionable insights"""
+        insights = []
+        
+        # Trend insights
+        if trend_data['direction'] == 'improving':
+            insights.append("You're on an upward trajectory! Keep the momentum going!")
+        elif trend_data['direction'] == 'declining':
+            insights.append("Productivity is slipping. Time to refocus and get back on track.")
+        
+        # Category insights
+        breakdown = category_analysis['breakdown']
+        if 'entertainment' in breakdown and breakdown['entertainment']['count'] > 3:
+            insights.append("Heavy on entertainment this week. Balance is key!")
+        
+        if 'exercise' in breakdown and breakdown['exercise']['count'] >= 3:
+            insights.append("Great exercise consistency! Your body thanks you.")
+        elif 'exercise' not in breakdown:
+            insights.append("No exercise logged. Your muscles are probably filing a complaint.")
+        
+        if 'study' in breakdown and breakdown['study']['total_time'] > 120:
+            insights.append("Solid learning commitment! Brain gains are real gains.")
+        
+        # Session frequency
+        if len(history) >= 5:
+            insights.append("Excellent logging consistency! You're building a great habit.")
+        elif len(history) <= 2:
+            insights.append("Log more regularly to get better insights and streak benefits!")
+        
+        return insights[:4]  # Limit to 4 insights
+    
+    def suggest_improvements(self) -> List[str]:
+        """Suggest improvements based on recent activity"""
+        history = self.memory.get_activity_history(days=7)
+        
+        if not history:
+            return ["Start logging your daily activities to get personalized suggestions!"]
+        
+        suggestions = []
+        category_analysis = self._analyze_categories(history)
+        breakdown = category_analysis['breakdown']
+        
+        # Exercise suggestions
+        exercise_time = breakdown.get('exercise', {}).get('total_time', 0)
+        if exercise_time < 150:  # WHO recommendation: 150 min/week
+            suggestions.append("Aim for 150 minutes of exercise per week for better health")
+        
+        # Entertainment balance
+        entertainment_time = breakdown.get('entertainment', {}).get('total_time', 0)
+        if entertainment_time > 300:  # 5+ hours
+            suggestions.append("Consider reducing entertainment time and adding productive activities")
+        
+        # Learning suggestions
+        study_time = breakdown.get('study', {}).get('total_time', 0)
+        if study_time < 60:
+            suggestions.append("Try to dedicate at least 1 hour per week to learning something new")
+        
+        # Consistency suggestions
+        if len(history) < 4:
+            suggestions.append("Log activities more consistently to build better habits and streaks")
+        
+        return suggestions[:3]  # Limit to 3 suggestions
