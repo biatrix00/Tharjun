@@ -30,226 +30,229 @@ class MotivAgentWeb:
             initial_sidebar_state="expanded"
         )
         
-        # Custom CSS for enhanced styling
+        # Minimalist CSS styling
         st.markdown("""
         <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
         
         html, body, [class*="css"] {
             font-family: 'Inter', sans-serif;
+            background-color: #fafafa;
         }
         
         .main-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 2rem;
-            border-radius: 15px;
+            background: #ffffff;
+            padding: 3rem 2rem;
+            border-radius: 8px;
             margin-bottom: 2rem;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            animation: fadeInUp 0.8s ease-out;
+            border: 1px solid #e8e8e8;
         }
         
         .main-header h1 {
-            color: white;
+            color: #2c3e50;
             margin: 0;
-            font-size: 3rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: -1px;
         }
         
         .main-header h3 {
-            color: rgba(255,255,255,0.9);
+            color: #7f8c8d;
             margin: 0.5rem 0;
-            font-weight: 500;
+            font-weight: 400;
+            font-size: 1.1rem;
         }
         
         .main-header p {
-            color: rgba(255,255,255,0.8);
+            color: #95a5a6;
             margin: 0;
+            font-weight: 300;
             font-style: italic;
-        }
-        
-        .stats-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: 1.5rem;
-            border-radius: 15px;
-            color: white;
-            text-align: center;
-            margin-bottom: 1rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .stats-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        }
-        
-        .activity-card {
-            background: white;
-            border: 1px solid #e1e5e9;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            border-left: 5px solid #667eea;
-        }
-        
-        .activity-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        
-        .productivity-high {
-            border-left-color: #4caf50 !important;
-        }
-        
-        .productivity-medium {
-            border-left-color: #ff9800 !important;
-        }
-        
-        .productivity-low {
-            border-left-color: #f44336 !important;
-        }
-        
-        .roast-message {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            padding: 1rem;
-            border-radius: 10px;
-            border-left: 4px solid #ff6b6b;
-            font-style: italic;
-            margin: 1rem 0;
         }
         
         .metric-container {
-            background: white;
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid #e8e8e8;
             text-align: center;
             margin: 0.5rem 0;
         }
         
-        .quick-action-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .metric-container h2 {
+            font-size: 1.5rem;
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .metric-container h3 {
+            color: #2c3e50;
+            margin: 0.5rem 0;
             font-weight: 500;
         }
         
-        .quick-action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        .metric-container p {
+            color: #7f8c8d;
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        
+        .activity-card {
+            background: #ffffff;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 3px solid #3498db;
+        }
+        
+        .activity-card h4 {
+            color: #2c3e50;
+            margin: 0 0 1rem 0;
+            font-weight: 500;
+        }
+        
+        .productivity-high {
+            border-left-color: #27ae60 !important;
+        }
+        
+        .productivity-medium {
+            border-left-color: #f39c12 !important;
+        }
+        
+        .productivity-low {
+            border-left-color: #e74c3c !important;
+        }
+        
+        .roast-message {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid #e74c3c;
+            margin: 1rem 0;
+            color: #2c3e50;
         }
         
         .sidebar-content {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            padding: 1rem;
-            border-radius: 15px;
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border: 1px solid #e8e8e8;
             margin-bottom: 1rem;
         }
         
         .insight-card {
-            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+            background: #ffffff;
             padding: 1.5rem;
-            border-radius: 15px;
+            border-radius: 6px;
             margin: 1rem 0;
-            border-left: 5px solid #8e44ad;
+            border: 1px solid #e8e8e8;
+            border-left: 3px solid #9b59b6;
         }
         
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .insight-card h3 {
+            color: #2c3e50;
+            margin: 0 0 1rem 0;
+            font-weight: 500;
         }
         
         .stTabs [data-baseweb="tab-list"] {
-            gap: 2rem;
+            gap: 1rem;
+            background: none;
         }
         
         .stTabs [data-baseweb="tab"] {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 10px 10px 0 0;
-            font-weight: 600;
+            background: #ffffff;
+            color: #7f8c8d;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px 6px 0 0;
+            font-weight: 400;
         }
         
         .stTabs [aria-selected="true"] {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: #3498db;
+            color: #ffffff;
+            border-color: #3498db;
         }
         
-        .progress-bar {
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            height: 10px;
-            border-radius: 5px;
-            margin: 0.5rem 0;
+        /* Streamlit component overrides */
+        .stButton > button {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 400;
+            transition: background-color 0.2s ease;
+        }
+        
+        .stButton > button:hover {
+            background: #2980b9;
+        }
+        
+        .stTextArea > div > div > textarea {
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .stSelectbox > div > div > div {
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
         }
         </style>
         """, unsafe_allow_html=True)
         
-        # Animated Header
+        # Clean Header
         st.markdown("""
         <div class="main-header">
-            <h1>🤖 MOTIVAGENT 🤖</h1>
-            <h3>Your Sarcastic Life Coach</h3>
-            <p>"Motivation with a side of roast"</p>
+            <h1>MotivAgent</h1>
+            <h3>Your Personal Activity Coach</h3>
+            <p>Track, analyze, and improve your daily habits</p>
         </div>
         """, unsafe_allow_html=True)
         
-        # Enhanced Sidebar
+        # Clean Sidebar
         with st.sidebar:
             st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
-            st.markdown("### 📊 Your Stats Dashboard")
+            st.markdown("### Statistics")
             
             streak_info = st.session_state.memory.get_streak_info()
             
-            # Animated metrics
-            col1, col2 = st.columns(2)
-            with col1:
+            # Clean metrics
+            st.markdown(f"""
+            <div class="metric-container">
+                <h2 style="color: #e74c3c;">🔥</h2>
+                <h3>{streak_info['current_streak']}</h3>
+                <p>Current Streak</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.markdown(f"""
+            <div class="metric-container">
+                <h2 style="color: #3498db;">📊</h2>
+                <h3>{streak_info['total_sessions']}</h3>
+                <p>Total Sessions</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.markdown(f"""
+            <div class="metric-container">
+                <h2 style="color: #27ae60;">🏆</h2>
+                <h3>{streak_info['longest_streak']}</h3>
+                <p>Best Streak</p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            if streak_info['is_streak_broken']:
                 st.markdown(f"""
-                <div class="metric-container">
-                    <h2 style="color: #667eea; margin: 0;">🔥</h2>
-                    <h3 style="margin: 0.5rem 0;">{streak_info['current_streak']}</h3>
-                    <p style="margin: 0; color: #666;">Current Streak</p>
+                <div class="metric-container" style="border-left: 3px solid #e74c3c;">
+                    <h2 style="color: #e74c3c;">⏰</h2>
+                    <h3>{streak_info['days_inactive']}</h3>
+                    <p>Days Inactive</p>
                 </div>
                 """, unsafe_allow_html=True)
-                
-                st.markdown(f"""
-                <div class="metric-container">
-                    <h2 style="color: #f093fb; margin: 0;">📝</h2>
-                    <h3 style="margin: 0.5rem 0;">{streak_info['total_sessions']}</h3>
-                    <p style="margin: 0; color: #666;">Total Sessions</p>
-                </div>
-                """, unsafe_allow_html=True)
-                
-            with col2:
-                st.markdown(f"""
-                <div class="metric-container">
-                    <h2 style="color: #4caf50; margin: 0;">🏆</h2>
-                    <h3 style="margin: 0.5rem 0;">{streak_info['longest_streak']}</h3>
-                    <p style="margin: 0; color: #666;">Longest Streak</p>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                if streak_info['is_streak_broken']:
-                    st.markdown(f"""
-                    <div class="metric-container" style="border: 2px solid #f44336;">
-                        <h2 style="color: #f44336; margin: 0;">💔</h2>
-                        <h3 style="margin: 0.5rem 0;">{streak_info['days_inactive']}</h3>
-                        <p style="margin: 0; color: #f44336;">Days Inactive</p>
-                    </div>
-                    """, unsafe_allow_html=True)
             
             st.markdown('</div>', unsafe_allow_html=True)
             
@@ -260,8 +263,8 @@ class MotivAgentWeb:
                 st.progress(progress)
                 st.write(f"{int(progress * 100)}% Complete")
         
-        # Main content tabs with enhanced styling
-        tab1, tab2, tab3 = st.tabs(["🎯 Log Activities", "📈 Weekly Insights", "🧪 Test Mode"])
+        # Main content tabs
+        tab1, tab2, tab3 = st.tabs(["Log Activities", "Weekly Insights", "Test Mode"])
         
         with tab1:
             self.activity_logger()
@@ -273,50 +276,50 @@ class MotivAgentWeb:
             self.test_mode()
 
     def activity_logger(self):
-        st.markdown("### What did you accomplish today?")
+        st.markdown("### Daily Activity Log")
         
-        # Input methods with better styling
+        # Input methods
         input_method = st.radio(
-            "Choose your preferred input method:",
-            ["💬 Text Input", "🎯 Quick Actions"],
+            "Input Method",
+            ["Text Input", "Quick Actions"],
             horizontal=True
         )
         
-        if input_method == "💬 Text Input":
-            st.markdown("#### 💭 Tell me about your day...")
+        if input_method == "Text Input":
+            st.markdown("#### Describe your activities")
             user_input = st.text_area(
-                "",
-                placeholder="e.g., 'crushed a 45-minute workout, studied Python for 2 hours, and only watched 1 episode of Netflix (progress!)'",
-                height=120,
-                help="Be specific! The more details, the better the roast... I mean, motivation! 😏"
+                "Activities",
+                placeholder="e.g., 'walked 45 minutes, studied for 2 hours, watched 1 episode of a show'",
+                height=100,
+                help="Be specific about duration and activities for better tracking"
             )
             
-            if st.button("🚀 Roast My Day!", type="primary", use_container_width=True):
+            if st.button("Analyze Activities", type="primary", use_container_width=True):
                 if user_input.strip():
                     self.process_activities(user_input)
                 else:
-                    st.warning("🤨 Nothing to report? Even professional procrastination counts as an activity!")
+                    st.warning("Please enter some activities to analyze")
         
         else:
-            st.markdown("#### 🎯 Quick Activity Buttons")
-            st.markdown("*Click any button to instantly log that activity*")
+            st.markdown("#### Quick Activity Buttons")
+            st.markdown("*One-click activity logging*")
             
             quick_activities = [
-                ("🏃‍♂️ Morning Walk", "walked 30 minutes around the neighborhood", "🌅"),
-                ("📚 Study Session", "studied for 1 hour", "🧠"),
-                ("📺 Netflix Time", "watched netflix for 2 hours", "🍿"),
-                ("💪 Gym Beast Mode", "worked out at gym for 45 minutes", "🔥"),
-                ("🧘‍♀️ Zen Moment", "meditated for 20 minutes", "☮️"),
-                ("🍳 Master Chef", "cooked dinner for 30 minutes", "👨‍🍳"),
-                ("📱 Social Scroll", "scrolled social media for 1 hour", "📱"),
-                ("🎮 Gaming Session", "played video games for 3 hours", "🎮"),
-                ("📖 Reading Time", "read a book for 45 minutes", "📚")
+                ("Morning Walk", "walked 30 minutes", "🚶"),
+                ("Study Session", "studied for 1 hour", "📚"),
+                ("Exercise", "worked out for 45 minutes", "💪"),
+                ("Reading", "read for 30 minutes", "📖"),
+                ("Meditation", "meditated for 20 minutes", "🧘"),
+                ("Cooking", "cooked for 30 minutes", "🍳"),
+                ("Screen Time", "watched shows for 2 hours", "📺"),
+                ("Gaming", "played games for 1 hour", "🎮"),
+                ("Social Media", "browsed social media for 1 hour", "📱")
             ]
             
             cols = st.columns(3)
-            for i, (button_text, activity_text, emoji) in enumerate(quick_activities):
+            for i, (button_text, activity_text, icon) in enumerate(quick_activities):
                 col = cols[i % 3]
-                if col.button(f"{emoji} {button_text}", use_container_width=True):
+                if col.button(f"{icon} {button_text}", use_container_width=True):
                     self.process_activities(activity_text)
 
     def process_activities(self, user_input):
@@ -406,19 +409,19 @@ class MotivAgentWeb:
                 """, unsafe_allow_html=True)
 
     def weekly_insights(self):
-        st.markdown("### 📈 Weekly Performance Dashboard")
+        st.markdown("### Weekly Overview")
         
         insights = st.session_state.insight.analyze_weekly_trends()
         weekly_summary = st.session_state.memory.get_weekly_summary()
         
-        # Enhanced summary cards
+        # Clean summary cards
         col1, col2, col3, col4 = st.columns(4)
         
         metrics = [
-            ("📝", "Activities", weekly_summary.get('total_activities', 0), "#667eea"),
-            ("🔥", "Calories", f"{weekly_summary.get('total_calories', 0)} kcal", "#ff6b6b"),
-            ("📊", "Avg Score", f"{weekly_summary.get('avg_productivity', 0):.1f}/10", "#4caf50"),
-            ("📈", "Trend", insights['trend'].title(), "#764ba2")
+            ("📊", "Activities", weekly_summary.get('total_activities', 0), "#3498db"),
+            ("🔥", "Calories", f"{weekly_summary.get('total_calories', 0)}", "#e74c3c"),
+            ("⭐", "Avg Score", f"{weekly_summary.get('avg_productivity', 0):.1f}/10", "#27ae60"),
+            ("📈", "Trend", insights['trend'].title(), "#9b59b6")
         ]
         
         for col, (icon, label, value, color) in zip([col1, col2, col3, col4], metrics):
@@ -430,11 +433,11 @@ class MotivAgentWeb:
             </div>
             """, unsafe_allow_html=True)
         
-        # Weekly roast with enhanced styling
+        # Weekly summary
         st.markdown(f"""
         <div class="insight-card">
-            <h3>🎭 Weekly Roast Summary</h3>
-            <p style="font-size: 1.1em; font-style: italic;">{insights['roast_summary']}</p>
+            <h3>Weekly Summary</h3>
+            <p>{insights['roast_summary']}</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -479,18 +482,18 @@ class MotivAgentWeb:
             """, unsafe_allow_html=True)
 
     def test_mode(self):
-        st.markdown("### 🧪 Test Mode - Try Different Scenarios")
-        st.markdown("*See how MotivAgent responds to various lifestyle choices!*")
+        st.markdown("### Test Scenarios")
+        st.markdown("*Try different activity patterns to see how the system responds*")
         
         test_scenarios = [
-            ("🏃‍♂️ Fitness Enthusiast", "ran 5 miles, did 100 push-ups, and meal prepped for the week"),
-            ("📚 Study Grind", "studied calculus for 4 hours straight with only coffee breaks"),
-            ("🎮 Gaming Marathon", "played Call of Duty for 8 hours and ordered pizza twice"),
-            ("🧘‍♀️ Wellness Warrior", "meditated for 1 hour, did yoga, and journaled my feelings"),
-            ("📺 Binge Watcher", "watched entire season of Stranger Things while eating ice cream"),
-            ("💼 Workaholic", "worked 12 hours, skipped lunch, and answered emails until midnight"),
-            ("🎨 Creative Day", "painted for 3 hours, played guitar, and wrote poetry"),
-            ("🍕 Couch Potato", "scrolled TikTok all day and only left bed for snacks")
+            ("Active Day", "ran 5 miles, did 100 push-ups, and meal prepped for the week"),
+            ("Study Focus", "studied calculus for 4 hours straight with breaks"),
+            ("Gaming Session", "played video games for 8 hours"),
+            ("Wellness Day", "meditated for 1 hour, did yoga, and journaled"),
+            ("Entertainment", "watched entire season of a show"),
+            ("Work Day", "worked 12 hours and answered emails"),
+            ("Creative Time", "painted for 3 hours, played guitar, and wrote"),
+            ("Relaxation", "took it easy and rested all day")
         ]
         
         cols = st.columns(2)
