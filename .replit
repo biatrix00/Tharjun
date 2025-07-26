@@ -1,7 +1,7 @@
-run = "run"
+run = "python3 main.py"
 [nix]
 channel = "stable-25_05"
-packages = ["run"]
+packages = ["python3"]
 
 [workflows]
 runButton = "Run MotivAgent"
