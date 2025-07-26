@@ -160,8 +160,12 @@ class MotivAgentWeb:
             border-radius: 8px;
             border-left: 3px solid #f56565;
             margin: 1rem 0;
-            color: #2d3748;
+            color: #1a202c !important;
             box-shadow: 0 2px 10px rgba(245, 101, 101, 0.1);
+        }
+        
+        .roast-message strong {
+            color: #1a202c !important;
         }
         
         .sidebar-content {
