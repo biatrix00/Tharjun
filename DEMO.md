@@ -9,9 +9,9 @@
 
 ## 🚀 Live Demo Links
 
-- **🌐 Web Interface**: [MotivAgent Live App](https://motivagent.replit.app)
+- **🌐 Web Interface**: still on process...
 - **⚡ CLI Version**: Run `python main.py` in the Replit console
-- **📺 Demo Video**: [5-Minute Walkthrough](https://www.loom.com/share/demo-link-here) *(Replace with actual link)*
+- **📺 Demo Video**: [5-Minute Walkthrough]([https://www.loom.com/share/demo-link-here](https://drive.google.com/file/d/1Tb5zWhc3YAuvSnkGJVN3HRk7nm4mDlFq/view?usp=sharing) 
 
 ## 🎥 Demo Video Walkthrough
 
