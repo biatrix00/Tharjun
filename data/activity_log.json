@@ -59,5 +59,35 @@
     ],
     "total_calories": 30,
     "avg_productivity": 3.0
+  },
+  {
+    "date": "2025-07-26T15:24:54.616970",
+    "activities": [
+      {
+        "text": "just  read somre manga went to shopping",
+        "category": "study",
+        "subcategory": "reading",
+        "duration": 90,
+        "intensity": "medium",
+        "mood": "neutral",
+        "context": {},
+        "confidence": 0.15384615384615385,
+        "parsed_elements": {
+          "has_duration": true,
+          "has_mood_indicator": false,
+          "has_intensity_modifier": false,
+          "has_location": false,
+          "social_activity": false
+        },
+        "sequence_order": 1,
+        "is_first": true,
+        "is_last": true,
+        "calories_burned": 90,
+        "motivation_message": "90 minutes of manga and shopping?  Sounds like a *masterpiece* of procrastination, darling.  But hey, at least you *left the house*, right? Now go conquer something actually productive!",
+        "productivity_score": 10
+      }
+    ],
+    "total_calories": 90,
+    "avg_productivity": 10.0
   }
 ]
