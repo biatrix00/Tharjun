@@ -38,12 +38,12 @@ class MotivAgentWeb:
         
         html, body, [class*="css"] {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             min-height: 100vh;
         }
         
         .main-header {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(248, 250, 252, 0.95);
             backdrop-filter: blur(10px);
             padding: 2.5rem 2rem;
             border-radius: 16px;
@@ -80,11 +80,11 @@ class MotivAgentWeb:
         }
         
         .metric-container {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(248, 250, 252, 0.95);
             backdrop-filter: blur(10px);
             padding: 1.5rem;
             border-radius: 12px;
-            border: none;
+            border: 1px solid rgba(226, 232, 240, 0.5);
             text-align: center;
             margin: 0.5rem 0;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
@@ -117,9 +117,9 @@ class MotivAgentWeb:
         }
         
         .activity-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(248, 250, 252, 0.95);
             backdrop-filter: blur(10px);
-            border: none;
+            border: 1px solid rgba(226, 232, 240, 0.5);
             border-radius: 12px;
             padding: 1.5rem;
             margin: 1rem 0;
@@ -141,17 +141,17 @@ class MotivAgentWeb:
         
         .productivity-high {
             border-left-color: #48bb78 !important;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(72, 187, 120, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(72, 187, 120, 0.05) 100%);
         }
         
         .productivity-medium {
             border-left-color: #ed8936 !important;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(237, 137, 54, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(237, 137, 54, 0.05) 100%);
         }
         
         .productivity-low {
             border-left-color: #f56565 !important;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 101, 101, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(245, 101, 101, 0.05) 100%);
         }
         
         .roast-message {
@@ -169,25 +169,25 @@ class MotivAgentWeb:
         }
         
         .sidebar-content {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(248, 250, 252, 0.95);
             backdrop-filter: blur(10px);
             padding: 1.5rem;
             border-radius: 12px;
-            border: none;
+            border: 1px solid rgba(226, 232, 240, 0.5);
             margin-bottom: 1rem;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
         }
         
         .insight-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(248, 250, 252, 0.95);
             backdrop-filter: blur(10px);
             padding: 1.5rem;
             border-radius: 12px;
             margin: 1rem 0;
-            border: none;
+            border: 1px solid rgba(226, 232, 240, 0.5);
             border-left: 4px solid #805ad5;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(128, 90, 213, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(128, 90, 213, 0.05) 100%);
         }
         
         .insight-card h3 {
@@ -241,14 +241,14 @@ class MotivAgentWeb:
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             font-family: 'Inter', sans-serif;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(248, 250, 252, 0.9);
             backdrop-filter: blur(10px);
         }
         
         .stSelectbox > div > div > div {
             border: 1px solid #e2e8f0;
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(248, 250, 252, 0.9);
             backdrop-filter: blur(10px);
         }
         
@@ -262,7 +262,7 @@ class MotivAgentWeb:
         }
         
         .stRadio > div > label {
-            background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
             margin: 0.25rem;
@@ -290,13 +290,13 @@ class MotivAgentWeb:
         
         /* Scroll Stack Statistics Styles */
         .stats-scroll-stack {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(248, 250, 252, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 1.5rem;
             margin-bottom: 1rem;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(226, 232, 240, 0.5);
         }
         
         .stats-header {
@@ -330,7 +330,7 @@ class MotivAgentWeb:
         
         .stack-card {
             position: relative;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%);
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.9) 0%, rgba(241, 245, 249, 0.8) 100%);
             border-radius: 16px;
             padding: 1.25rem;
             margin-bottom: 0.75rem;
