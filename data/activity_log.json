@@ -529,5 +529,104 @@
     ],
     "total_calories": 339,
     "avg_productivity": 5.5
+  },
+  {
+    "date": "2025-07-26T16:39:04.663706",
+    "activities": [
+      {
+        "text": "I woke up early",
+        "category": "other",
+        "subcategory": "general",
+        "duration": 30,
+        "intensity": "medium",
+        "mood": "neutral",
+        "context": {},
+        "confidence": 0.0,
+        "parsed_elements": {
+          "has_duration": true,
+          "has_mood_indicator": false,
+          "has_intensity_modifier": false,
+          "has_location": false,
+          "social_activity": false
+        },
+        "sequence_order": 1,
+        "is_first": true,
+        "is_last": false,
+        "calories_burned": 15,
+        "motivation_message": "Oh, you woke up early?  For a whole 30 minutes?  Impressive, you practically conquered Mount Everest\u2026 of your bed.  Five out of ten productivity? Let's aim for a solid seven tomorrow, champ.  You got this!",
+        "productivity_score": 3
+      },
+      {
+        "text": "meditated for 15 minutes",
+        "category": "habits",
+        "subcategory": "general",
+        "duration": 15,
+        "intensity": "low",
+        "mood": "neutral",
+        "context": {},
+        "confidence": 0.5,
+        "parsed_elements": {
+          "has_duration": true,
+          "has_mood_indicator": false,
+          "has_intensity_modifier": true,
+          "has_location": false,
+          "social_activity": false
+        },
+        "sequence_order": 2,
+        "is_first": false,
+        "is_last": false,
+        "calories_burned": 24,
+        "motivation_message": "Fifteen minutes of meditation?  Honey, you burned a whopping 24 calories \u2013 that's barely enough to power a gnat.  But hey, at least your inner peace is now slightly less chaotic than your calorie expenditure.  Keep at it, champion!",
+        "productivity_score": 5
+      },
+      {
+        "text": "studied Python for 2 hours",
+        "category": "other",
+        "subcategory": "general",
+        "duration": 120,
+        "intensity": "medium",
+        "mood": "neutral",
+        "context": {},
+        "confidence": 0.0,
+        "parsed_elements": {
+          "has_duration": true,
+          "has_mood_indicator": false,
+          "has_intensity_modifier": false,
+          "has_location": false,
+          "social_activity": false
+        },
+        "sequence_order": 3,
+        "is_first": false,
+        "is_last": false,
+        "calories_burned": 60,
+        "motivation_message": "Two hours of Python?  Impressive, you almost single-handedly prevented a snake from taking over the world... almost.  But hey, 60 calories burned \u2013 that's like, half a gummy bear's worth of effort. Now get back to it, code warrior!",
+        "productivity_score": 4
+      },
+      {
+        "text": "went for a 45-minute run",
+        "category": "exercise",
+        "subcategory": "cardio",
+        "duration": 30,
+        "intensity": "medium",
+        "mood": "neutral",
+        "context": {},
+        "confidence": 0.1875,
+        "parsed_elements": {
+          "has_duration": true,
+          "has_mood_indicator": false,
+          "has_intensity_modifier": false,
+          "has_location": false,
+          "social_activity": false
+        },
+        "sequence_order": 4,
+        "is_first": false,
+        "is_last": true,
+        "calories_burned": 240,
+        "motivation_message": "Forty-five minutes of running?  More like forty-five minutes of *almost* outrunning your responsibilities.  But hey, 240 calories is 240 calories \u2013 now go conquer the rest of your to-do list, you magnificent, slightly sweaty, underachiever.",
+        "productivity_score": 10
+      }
+    ],
+    "total_calories": 339,
+    "avg_productivity": 5.5
   }
 ]
