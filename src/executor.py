@@ -73,7 +73,7 @@ class Executor:
         intensity = activity['intensity']
         text_lower = activity['text'].lower()
         
-        # Check for sedentary activities first
+        # Check for sedentary activities first (prioritize specific keywords)
         sedentary_rate = None
         for keyword, rate in self.sedentary_keywords.items():
             if keyword in text_lower:
@@ -81,7 +81,7 @@ class Executor:
                 break
         
         # Use sedentary rate if detected, otherwise use category rate
-        if sedentary_rate:
+        if sedentary_rate is not None:
             base_rate = sedentary_rate
         elif any(kw in text_lower for kw in ['walk', 'walking']):
             base_rate = self.calorie_rates['walk']
@@ -89,10 +89,10 @@ class Executor:
             base_rate = self.calorie_rates.get(category, 0.5)
         
         # Intensity multiplier (reduced impact for sedentary activities)
-        if sedentary_rate:
+        if sedentary_rate is not None:
             # Very minimal intensity variation for sedentary activities
             intensity_multiplier = {
-                'low': 0.9,
+                'low': 0.8,
                 'medium': 1.0,
                 'high': 1.1
             }.get(intensity, 1.0)
@@ -104,6 +104,11 @@ class Executor:
             }.get(intensity, 1.0)
         
         calories = int(base_rate * duration * intensity_multiplier)
+        
+        # Cap calories for extremely sedentary activities
+        if sedentary_rate is not None and sedentary_rate <= 0.3:
+            calories = min(calories, duration // 2)  # Max 0.5 calories per minute for very sedentary
+        
         return max(calories, 1)  # Minimum 1 calorie
     
     def _generate_motivation(self, activity: Dict[str, Any]) -> str:
@@ -226,12 +231,13 @@ Generate your roast/motivation response:
         duration = activity['duration']
         
         # Check for sedentary activities first
+        actual_calories = self._calculate_calories({'text': text, 'category': category, 'duration': duration, 'intensity': activity.get('intensity', 'medium')})
         if any(keyword in text for keyword in ['scroll', 'doomscroll', 'social media', 'instagram', 'tiktok', 'facebook']):
             hours = duration // 60
             if hours >= 3:
-                return f"Congratulations! You've achieved Olympic-level thumb exercise for {hours} hours. That's about as many calories as breathing. Now go touch grass! 🌱"
+                return f"Congratulations! You've achieved Olympic-level thumb exercise for {hours} hours. That's {actual_calories} calories - barely enough to power a light bulb. Your thumb muscles are ripped though! 💡"
             else:
-                return "Professional doomscrolling! Your thumb got a workout, but your brain cells are filing for unemployment. Time for a reality check! 📱➡️🚶"
+                return f"Professional doomscrolling! Your thumb got a workout worth {actual_calories} calories. That's like 1/20th of a cookie. Time for a reality check! 📱➡️🚶"
         
         if category == 'exercise' or 'walk' in text:
             return "Look at you moving your body! Revolutionary concept. Keep it up, champ! 💪"
