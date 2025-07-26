@@ -42,5 +42,22 @@
     ],
     "total_calories": 30,
     "avg_productivity": 3.0
+  },
+  {
+    "date": "2025-07-26T10:21:53.084602",
+    "activities": [
+      {
+        "text": "i just slept",
+        "category": "other",
+        "duration": 30,
+        "intensity": "medium",
+        "confidence": 0.0,
+        "calories_burned": 30,
+        "motivation_message": "Thirty minutes?  Amateur.  Try a solid eight hours, then maybe we can talk about *achievements*.",
+        "productivity_score": 3
+      }
+    ],
+    "total_calories": 30,
+    "avg_productivity": 3.0
   }
 ]
