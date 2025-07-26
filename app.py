@@ -321,7 +321,7 @@ class MotivAgentWeb:
                 st.write(f"{int(progress * 100)}% Complete")
         
         # Main content tabs
-        tab1, tab2, tab3 = st.tabs(["Log Activities", "Weekly Insights", "Test Mode"])
+        tab1, tab2, tab3, tab4 = st.tabs(["Log Activities", "Weekly Insights", "Smart Analytics", "Test Mode"])
         
         with tab1:
             self.activity_logger()
@@ -330,6 +330,9 @@ class MotivAgentWeb:
             self.weekly_insights()
             
         with tab3:
+            self.smart_analytics()
+            
+        with tab4:
             self.test_mode()
 
     def activity_logger(self):
@@ -359,25 +362,71 @@ class MotivAgentWeb:
         
         else:
             st.markdown("#### Quick Activity Buttons")
-            st.markdown("*One-click activity logging*")
+            st.markdown("*One-click activity logging with smart suggestions*")
             
-            quick_activities = [
-                ("Morning Walk", "walked 30 minutes", "🚶"),
-                ("Study Session", "studied for 1 hour", "📚"),
-                ("Exercise", "worked out for 45 minutes", "💪"),
-                ("Reading", "read for 30 minutes", "📖"),
-                ("Meditation", "meditated for 20 minutes", "🧘"),
-                ("Cooking", "cooked for 30 minutes", "🍳"),
-                ("Screen Time", "watched shows for 2 hours", "📺"),
-                ("Gaming", "played games for 1 hour", "🎮"),
-                ("Social Media", "browsed social media for 1 hour", "📱")
-            ]
+            # Context-aware quick activities
+            current_hour = datetime.now().hour
+            if current_hour < 10:
+                time_context = "morning"
+                suggested_activities = [
+                    ("Morning Walk", "took a refreshing 30-minute morning walk", "🚶"),
+                    ("Workout", "did an energizing 45-minute morning workout", "💪"),
+                    ("Meditation", "started the day with 15 minutes of meditation", "🧘"),
+                    ("Coffee & News", "enjoyed coffee while reading news for 20 minutes", "☕"),
+                    ("Stretching", "did gentle morning stretches for 10 minutes", "🤸"),
+                    ("Planning", "spent 15 minutes planning my day", "📋")
+                ]
+            elif current_hour < 17:
+                time_context = "afternoon"
+                suggested_activities = [
+                    ("Study Session", "focused studying for 1 hour", "📚"),
+                    ("Work Project", "worked productively on projects for 2 hours", "💼"),
+                    ("Lunch Break", "enjoyed a relaxing 30-minute lunch break", "🍽️"),
+                    ("Quick Exercise", "did a quick 20-minute workout", "💪"),
+                    ("Creative Work", "spent 45 minutes on creative projects", "🎨"),
+                    ("Learning", "watched educational content for 30 minutes", "🎓")
+                ]
+            else:
+                time_context = "evening"
+                suggested_activities = [
+                    ("Evening Walk", "took a peaceful 30-minute evening walk", "🌅"),
+                    ("Netflix Binge", "watched 3 episodes of my favorite show", "📺"),
+                    ("Gaming", "played games for 1.5 hours", "🎮"),
+                    ("Cooking", "cooked a nice dinner for 45 minutes", "🍳"),
+                    ("Reading", "read a book for 40 minutes before bed", "📖"),
+                    ("Social Time", "spent quality time with friends for 2 hours", "👥")
+                ]
+            
+            st.caption(f"*{time_context.title()} suggestions - or create your own below*")
             
             cols = st.columns(3)
-            for i, (button_text, activity_text, icon) in enumerate(quick_activities):
+            for i, (button_text, activity_text, icon) in enumerate(suggested_activities):
                 col = cols[i % 3]
                 if col.button(f"{icon} {button_text}", use_container_width=True):
                     self.process_activities(activity_text)
+            
+            # Custom quick activity builder
+            with st.expander("🛠️ Build Custom Activity", expanded=False):
+                col1, col2, col3 = st.columns(3)
+                
+                with col1:
+                    custom_activity = st.selectbox("Activity Type", [
+                        "walked", "ran", "studied", "worked on", "watched", "played",
+                        "cooked", "cleaned", "read", "meditated", "exercised"
+                    ])
+                
+                with col2:
+                    custom_duration = st.number_input("Duration (minutes)", min_value=5, max_value=480, value=30)
+                
+                with col3:
+                    custom_details = st.text_input("Details (optional)", placeholder="e.g., 'at the gym', 'with friends'")
+                
+                custom_text = f"{custom_activity} for {custom_duration} minutes"
+                if custom_details:
+                    custom_text += f" {custom_details}"
+                
+                if st.button("🚀 Log Custom Activity", use_container_width=True):
+                    self.process_activities(custom_text)
 
     def process_activities(self, user_input):
         with st.spinner("🧠 Analyzing your life choices... This might sting a little..."):
@@ -444,20 +493,44 @@ class MotivAgentWeb:
                 productivity_class = "productivity-high" if activity['productivity_score'] >= 7 else \
                                    "productivity-medium" if activity['productivity_score'] >= 4 else "productivity-low"
                 
+                # Build context display
+                context_info = []
+                context = activity.get('context', {})
+                if 'location' in context:
+                    context_info.append(f"📍 {context['location']}")
+                if context.get('with_others'):
+                    context_info.append("👥 With others")
+                elif context.get('with_others') == False:
+                    context_info.append("🚶 Solo")
+                if 'time_of_day' in context:
+                    context_info.append(f"🕐 {context['time_of_day']}")
+                
+                mood_emoji = {'positive': '😊', 'negative': '😔', 'neutral': '😐'}
+                mood_display = mood_emoji.get(activity.get('mood', 'neutral'), '😐')
+                
+                subcategory = activity.get('subcategory', 'general')
+                subcategory_display = f" ({subcategory})" if subcategory != 'general' else ""
+                
+                confidence = activity.get('confidence', 0)
+                confidence_display = "🎯 High" if confidence > 0.7 else "🤔 Medium" if confidence > 0.3 else "❓ Low"
+                
                 st.markdown(f"""
                 <div class="activity-card {productivity_class}">
                     <h4>📌 Activity {i}: {activity['text']}</h4>
                     <div style="display: flex; justify-content: space-between; margin: 1rem 0;">
                         <div>
-                            <strong>Category:</strong> {activity['category'].title()}<br>
+                            <strong>Category:</strong> {activity['category'].title()}{subcategory_display}<br>
                             <strong>Duration:</strong> {activity['duration']} minutes<br>
-                            <strong>Intensity:</strong> {activity['intensity'].title()}
+                            <strong>Intensity:</strong> {activity['intensity'].title()}<br>
+                            <strong>Mood:</strong> {mood_display} {activity.get('mood', 'neutral').title()}
                         </div>
                         <div style="text-align: right;">
                             <div style="color: #ff6b6b;"><strong>{activity['calories_burned']} kcal</strong></div>
                             <div style="color: #667eea;"><strong>{activity['productivity_score']}/10</strong></div>
+                            <div style="color: #666; font-size: 0.8em;">Parse: {confidence_display}</div>
                         </div>
                     </div>
+                    {f'<div style="margin: 0.5rem 0; color: #666; font-size: 0.9em;">{" • ".join(context_info)}</div>' if context_info else ''}
                     <div class="roast-message">
                         <strong>🎭 RoastBot Says:</strong><br>
                         {activity['motivation_message']}
@@ -538,19 +611,192 @@ class MotivAgentWeb:
             </div>
             """, unsafe_allow_html=True)
 
+    def smart_analytics(self):
+        st.markdown("### 🧠 Smart Analytics Dashboard")
+        st.markdown("*Advanced insights powered by enhanced activity understanding*")
+        
+        # Get enhanced data
+        weekly_data = st.session_state.memory.get_weekly_data()
+        if not weekly_data:
+            st.info("📊 No data available yet. Start logging activities to see advanced analytics!")
+            return
+        
+        # Extract all activities for analysis
+        all_activities = []
+        for session in weekly_data:
+            all_activities.extend(session.get('activities', []))
+        
+        if not all_activities:
+            st.info("📊 No activities found in recent data.")
+            return
+        
+        # Analytics sections
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("#### 🎯 Activity Patterns")
+            
+            # Category distribution with subcategories
+            category_data = {}
+            subcategory_data = {}
+            
+            for activity in all_activities:
+                cat = activity.get('category', 'other')
+                subcat = activity.get('subcategory', 'general')
+                
+                category_data[cat] = category_data.get(cat, 0) + 1
+                key = f"{cat} - {subcat}" if subcat != 'general' else cat
+                subcategory_data[key] = subcategory_data.get(key, 0) + 1
+            
+            # Create category chart
+            if category_data:
+                df_cat = pd.DataFrame(list(category_data.items()), columns=['Category', 'Count'])
+                fig = px.bar(df_cat, x='Category', y='Count', 
+                           title="Activity Categories",
+                           color='Count',
+                           color_continuous_scale='viridis')
+                fig.update_layout(height=300)
+                st.plotly_chart(fig, use_container_width=True)
+        
+        with col2:
+            st.markdown("#### ⏰ Time Patterns")
+            
+            # Duration analysis
+            durations = [activity.get('duration', 0) for activity in all_activities]
+            if durations:
+                avg_duration = sum(durations) / len(durations)
+                max_duration = max(durations)
+                total_time = sum(durations)
+                
+                st.metric("Average Duration", f"{avg_duration:.1f} min")
+                st.metric("Longest Session", f"{max_duration} min") 
+                st.metric("Total Time Tracked", f"{total_time//60}h {total_time%60}m")
+        
+        # Productivity trends
+        st.markdown("#### 📈 Productivity Intelligence")
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            # Mood analysis
+            moods = [activity.get('mood', 'neutral') for activity in all_activities]
+            mood_counts = {mood: moods.count(mood) for mood in set(moods)}
+            
+            st.markdown("**Mood Distribution**")
+            for mood, count in mood_counts.items():
+                percentage = (count / len(moods)) * 100
+                emoji = {'positive': '😊', 'negative': '😔', 'neutral': '😐'}
+                st.write(f"{emoji.get(mood, '😐')} {mood.title()}: {percentage:.1f}%")
+        
+        with col2:
+            # Intensity patterns
+            intensities = [activity.get('intensity', 'medium') for activity in all_activities]
+            intensity_counts = {i: intensities.count(i) for i in set(intensities)}
+            
+            st.markdown("**Intensity Levels**")
+            for intensity, count in intensity_counts.items():
+                percentage = (count / len(intensities)) * 100
+                emoji = {'high': '🔥', 'medium': '⚡', 'low': '🌱'}
+                st.write(f"{emoji.get(intensity, '⚡')} {intensity.title()}: {percentage:.1f}%")
+        
+        with col3:
+            # Context insights
+            social_activities = sum(1 for a in all_activities if a.get('context', {}).get('with_others'))
+            solo_activities = sum(1 for a in all_activities if a.get('context', {}).get('with_others') == False)
+            
+            st.markdown("**Social vs Solo**")
+            if social_activities + solo_activities > 0:
+                social_pct = (social_activities / (social_activities + solo_activities)) * 100
+                st.write(f"👥 Social: {social_pct:.1f}%")
+                st.write(f"🚶 Solo: {100-social_pct:.1f}%")
+        
+        # Advanced insights
+        st.markdown("#### 🔮 AI-Powered Insights")
+        
+        # Generate smart insights
+        insights = self._generate_smart_insights(all_activities)
+        
+        for insight in insights:
+            st.markdown(f"""
+            <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); 
+                        padding: 1rem; border-radius: 10px; margin: 0.5rem 0; 
+                        border-left: 4px solid #0ea5e9;">
+                {insight}
+            </div>
+            """, unsafe_allow_html=True)
+        
+        # Parsing quality analysis
+        st.markdown("#### 🎯 Input Understanding Quality")
+        
+        confidence_scores = [activity.get('confidence', 0) for activity in all_activities]
+        if confidence_scores:
+            avg_confidence = sum(confidence_scores) / len(confidence_scores)
+            high_confidence = sum(1 for c in confidence_scores if c > 0.7)
+            
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Average Parse Confidence", f"{avg_confidence:.2f}")
+            col2.metric("High Confidence Parses", f"{high_confidence}/{len(confidence_scores)}")
+            col3.metric("Parse Success Rate", f"{(high_confidence/len(confidence_scores)*100):.1f}%")
+    
+    def _generate_smart_insights(self, activities: List[Dict]) -> List[str]:
+        """Generate AI-powered insights from activity data"""
+        insights = []
+        
+        if not activities:
+            return ["No activities to analyze yet!"]
+        
+        # Productivity patterns
+        prod_scores = [a.get('productivity_score', 5) for a in activities]
+        avg_prod = sum(prod_scores) / len(prod_scores)
+        
+        if avg_prod > 7:
+            insights.append("🏆 **Productivity Champion**: You're consistently hitting high productivity scores! Keep up the excellent work.")
+        elif avg_prod < 4:
+            insights.append("📈 **Growth Opportunity**: Your productivity scores suggest room for improvement. Consider adding more structured activities.")
+        
+        # Time management insights
+        durations = [a.get('duration', 0) for a in activities]
+        if durations:
+            long_sessions = sum(1 for d in durations if d > 120)
+            if long_sessions > len(durations) * 0.3:
+                insights.append("⏰ **Marathon Sessions**: You tend to do long activity sessions. Consider breaking them up with short breaks for better focus.")
+        
+        # Mood correlation
+        positive_moods = sum(1 for a in activities if a.get('mood') == 'positive')
+        if positive_moods > len(activities) * 0.6:
+            insights.append("😊 **Positive Vibes**: You report positive moods frequently! This suggests good activity choices that align with your preferences.")
+        
+        # Category diversity
+        categories = set(a.get('category') for a in activities)
+        if len(categories) > 5:
+            insights.append("🌈 **Well-Rounded**: You engage in diverse activity types, which is excellent for balanced personal development.")
+        elif len(categories) < 3:
+            insights.append("🎯 **Specialization**: You focus on fewer activity types. Consider exploring new categories for variety.")
+        
+        # Context insights
+        social_count = sum(1 for a in activities if a.get('context', {}).get('with_others'))
+        if social_count > len(activities) * 0.5:
+            insights.append("👥 **Social Butterfly**: You frequently engage in activities with others. Great for building relationships!")
+        elif social_count < len(activities) * 0.2:
+            insights.append("🧘 **Solo Focus**: You prefer individual activities. Consider occasional social activities for balance.")
+        
+        return insights if insights else ["🤖 Analyzing your patterns... More data needed for deeper insights!"]
+
     def test_mode(self):
         st.markdown("### Test Scenarios")
-        st.markdown("*Try different activity patterns to see how the system responds*")
+        st.markdown("*Try different activity patterns to see how the enhanced system responds*")
         
         test_scenarios = [
-            ("Active Day", "ran 5 miles, did 100 push-ups, and meal prepped for the week"),
-            ("Study Focus", "studied calculus for 4 hours straight with breaks"),
-            ("Gaming Session", "played video games for 8 hours"),
-            ("Wellness Day", "meditated for 1 hour, did yoga, and journaled"),
-            ("Entertainment", "watched entire season of a show"),
-            ("Work Day", "worked 12 hours and answered emails"),
-            ("Creative Time", "painted for 3 hours, played guitar, and wrote"),
-            ("Relaxation", "took it easy and rested all day")
+            ("Active Morning", "went for an energizing 45-minute run at the park, feeling great this morning"),
+            ("Study Focus", "studied advanced calculus for 3 hours with intense concentration at the library"),
+            ("Gaming Binge", "played video games alone for 6 hours straight, got totally absorbed"),
+            ("Wellness Day", "meditated peacefully for 30 minutes, did gentle yoga, and journaled about my thoughts"),
+            ("Netflix Marathon", "binge-watched an entire season of my favorite show with friends, laughing all evening"),
+            ("Productive Work", "worked on important projects for 4 hours at the office, feeling accomplished"),
+            ("Creative Session", "painted for 2 hours at home, experimenting with new techniques and colors"),
+            ("Social Evening", "had dinner with family for 1.5 hours, enjoyed great conversation and connection"),
+            ("Mixed Day", "worked out hard for 1 hour at the gym, then studied programming for 2 hours, and relaxed watching Netflix"),
+            ("Lazy Sunday", "slept in late, browsed social media for 2 hours, and watched movies all afternoon")
         ]
         
         cols = st.columns(2)

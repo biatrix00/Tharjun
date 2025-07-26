@@ -83,24 +83,59 @@ class Executor:
             return self._get_fallback_motivation(activity)
     
     def _create_prompt(self, activity: Dict[str, Any]) -> str:
-        """Create prompt for Gemini API"""
+        """Create enhanced prompt for Gemini API with context awareness"""
         activity_text = activity['text']
         category = activity['category']
+        subcategory = activity.get('subcategory', 'general')
         duration = activity['duration']
+        intensity = activity['intensity']
+        mood = activity.get('mood', 'neutral')
+        context = activity.get('context', {})
+        productivity_score = activity.get('productivity_score', 5)
+        
+        # Build context string
+        context_parts = []
+        if 'location' in context:
+            context_parts.append(f"at {context['location']}")
+        if context.get('with_others'):
+            context_parts.append("with others")
+        elif context.get('with_others') == False:
+            context_parts.append("alone")
+        if 'time_of_day' in context:
+            context_parts.append(f"in the {context['time_of_day']}")
+        if 'weather' in context:
+            context_parts.append(f"weather was {context['weather']}")
+        
+        context_str = ", ".join(context_parts)
         
         prompt = f"""
-You're a savage AI life coach named *RoastBot*. The user shares what they did today. Your job:
-- Praise them if they were productive (study, exercise, habit)
-- Sarcastically insult them if they slacked (e.g. watched Netflix, did nothing)
-- Respond in a short, funny, roast-style message (max 2 sentences)
-- Never be boring
-- Be witty and memorable
+You're RoastBot, a witty AI life coach with a sharp tongue and a heart of gold. The user shares what they did today.
 
-Activity: "{activity_text}"
-Category: {category}
-Duration: {duration} minutes
+Your personality:
+- Savage but ultimately motivational
+- Funny and memorable
+- Tailored responses based on context
+- Mix of roasting and genuine encouragement
+- Reference specific details when possible
 
-Generate a single roast/motivation message:
+Activity Details:
+- What they did: "{activity_text}"
+- Category: {category} ({subcategory})
+- Duration: {duration} minutes
+- Intensity: {intensity}
+- Mood during activity: {mood}
+- Context: {context_str if context_str else "no specific context"}
+- Productivity score: {productivity_score}/10
+
+Response guidelines:
+- If productivity score ≥ 7: Praise with playful skepticism
+- If productivity score 4-6: Gentle roasting with encouragement  
+- If productivity score ≤ 3: Full roast mode but end with motivation
+- Reference specific details (duration, location, mood) when relevant
+- Keep it 1-2 sentences, punchy and memorable
+- Be creative with wordplay and humor
+
+Generate your roast/motivation response:
 """
         return prompt
     
@@ -165,10 +200,15 @@ Generate a single roast/motivation message:
             return "Did... something today? Well, that's technically better than nothing. Barely."
     
     def _calculate_productivity_score(self, activity: Dict[str, Any]) -> int:
-        """Calculate productivity score (1-10)"""
+        """Calculate enhanced productivity score (1-10) with multiple factors"""
         category = activity['category']
+        subcategory = activity.get('subcategory', 'general')
         duration = activity['duration']
+        intensity = activity['intensity']
+        mood = activity.get('mood', 'neutral')
+        context = activity.get('context', {})
         
+        # Enhanced base scores with subcategories
         base_scores = {
             'exercise': 8,
             'study': 9,
@@ -176,15 +216,67 @@ Generate a single roast/motivation message:
             'habits': 6,
             'social': 4,
             'entertainment': 2,
+            'creative': 7,
+            'wellness': 6,
+            'travel': 5,
             'other': 3
         }
         
-        base_score = base_scores.get(category, 3)
+        # Subcategory modifiers
+        subcategory_modifiers = {
+            'programming': 1,  # Extra point for coding
+            'reading': 1,      # Extra point for reading
+            'cardio': 1,       # Extra point for cardio
+            'strength': 1,     # Extra point for strength training
+            'streaming': -1,   # Penalty for passive entertainment
+            'social_media': -2 # Extra penalty for social media
+        }
         
-        # Duration bonus/penalty
-        if duration > 60:
+        base_score = base_scores.get(category, 3)
+        base_score += subcategory_modifiers.get(subcategory, 0)
+        
+        # Duration adjustments (more nuanced)
+        if duration > 180:  # > 3 hours
+            if category in ['entertainment']:
+                base_score -= 2  # Penalty for too much entertainment
+            elif category in ['study', 'work']:
+                base_score += 1  # Bonus for sustained productive work
+        elif duration > 60:  # 1-3 hours
             base_score += 1
-        elif duration < 15:
-            base_score -= 1
+        elif duration < 15:  # < 15 minutes
+            if category in ['exercise', 'habits']:
+                base_score -= 1  # Too short for meaningful impact
+            else:
+                base_score += 1  # Quick tasks can be efficient
+        
+        # Intensity modifiers
+        intensity_modifiers = {
+            'high': 1,
+            'medium': 0,
+            'low': -1
+        }
+        base_score += intensity_modifiers.get(intensity, 0)
+        
+        # Mood modifiers
+        mood_modifiers = {
+            'positive': 1,
+            'neutral': 0,
+            'negative': -1
+        }
+        base_score += mood_modifiers.get(mood, 0)
+        
+        # Context modifiers
+        if context.get('with_others') and category in ['exercise', 'study']:
+            base_score += 1  # Bonus for social productive activities
+        
+        if context.get('location') == 'gym' and category == 'exercise':
+            base_score += 1  # Bonus for going to gym
+        
+        if context.get('time_of_day') == 'morning' and category in ['exercise', 'study']:
+            base_score += 1  # Morning productivity bonus
+        
+        # Sequence bonuses (if multiple productive activities)
+        if activity.get('sequence_order', 1) > 1 and base_score >= 6:
+            base_score += 1  # Consistency bonus
             
         return max(1, min(10, base_score))
