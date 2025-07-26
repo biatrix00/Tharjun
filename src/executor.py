@@ -17,12 +17,31 @@ class Executor:
         self.calorie_rates = {
             'exercise': 8,  # calories per minute
             'walk': 5,
-            'study': 1,
+            'study': 1.2,  # Reading, writing requires some mental energy
             'work': 1.5,
-            'entertainment': 1,
+            'entertainment': 0.3,  # Very low - watching TV, scrolling
             'habits': 2,
             'social': 1.5,
-            'other': 1
+            'other': 0.5  # Default for undefined activities
+        }
+        
+        # Special low-calorie activities (per minute)
+        self.sedentary_keywords = {
+            'scroll': 0.2,
+            'doomscroll': 0.2,
+            'netflix': 0.3,
+            'tv': 0.3,
+            'watch': 0.3,
+            'social media': 0.2,
+            'instagram': 0.2,
+            'tiktok': 0.2,
+            'facebook': 0.2,
+            'twitter': 0.2,
+            'youtube': 0.3,
+            'browse': 0.2,
+            'phone': 0.2,
+            'lying': 0.1,
+            'sitting': 0.2
         }
         
     def process_activities(self, activities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -48,23 +67,41 @@ class Executor:
         return results
     
     def _calculate_calories(self, activity: Dict[str, Any]) -> int:
-        """Calculate estimated calories burned"""
+        """Calculate estimated calories burned with realistic sedentary detection"""
         category = activity['category']
         duration = activity['duration']
         intensity = activity['intensity']
+        text_lower = activity['text'].lower()
         
-        # Base rate from category
-        if any(kw in activity['text'].lower() for kw in ['walk', 'walking']):
+        # Check for sedentary activities first
+        sedentary_rate = None
+        for keyword, rate in self.sedentary_keywords.items():
+            if keyword in text_lower:
+                sedentary_rate = rate
+                break
+        
+        # Use sedentary rate if detected, otherwise use category rate
+        if sedentary_rate:
+            base_rate = sedentary_rate
+        elif any(kw in text_lower for kw in ['walk', 'walking']):
             base_rate = self.calorie_rates['walk']
         else:
-            base_rate = self.calorie_rates.get(category, 1)
+            base_rate = self.calorie_rates.get(category, 0.5)
         
-        # Intensity multiplier
-        intensity_multiplier = {
-            'low': 0.8,
-            'medium': 1.0,
-            'high': 1.3
-        }.get(intensity, 1.0)
+        # Intensity multiplier (reduced impact for sedentary activities)
+        if sedentary_rate:
+            # Very minimal intensity variation for sedentary activities
+            intensity_multiplier = {
+                'low': 0.9,
+                'medium': 1.0,
+                'high': 1.1
+            }.get(intensity, 1.0)
+        else:
+            intensity_multiplier = {
+                'low': 0.8,
+                'medium': 1.0,
+                'high': 1.3
+            }.get(intensity, 1.0)
         
         calories = int(base_rate * duration * intensity_multiplier)
         return max(calories, 1)  # Minimum 1 calorie
@@ -117,6 +154,7 @@ Your personality:
 - Tailored responses based on context
 - Mix of roasting and genuine encouragement
 - Reference specific details when possible
+- Call out unrealistic expectations (like burning lots of calories from sitting)
 
 Activity Details:
 - What they did: "{activity_text}"
@@ -125,12 +163,14 @@ Activity Details:
 - Intensity: {intensity}
 - Mood during activity: {mood}
 - Context: {context_str if context_str else "no specific context"}
+- Estimated calories: {self._calculate_calories({'text': activity_text, 'category': category, 'duration': duration, 'intensity': intensity})} (realistic estimate)
 - Productivity score: {productivity_score}/10
 
 Response guidelines:
 - If productivity score ≥ 7: Praise with playful skepticism
 - If productivity score 4-6: Gentle roasting with encouragement  
 - If productivity score ≤ 3: Full roast mode but end with motivation
+- For sedentary activities (scrolling, TV): Emphasize low calorie burn reality
 - Reference specific details (duration, location, mood) when relevant
 - Keep it 1-2 sentences, punchy and memorable
 - Be creative with wordplay and humor
@@ -183,6 +223,15 @@ Generate your roast/motivation response:
         """Fallback motivational messages when API is unavailable"""
         category = activity['category']
         text = activity['text'].lower()
+        duration = activity['duration']
+        
+        # Check for sedentary activities first
+        if any(keyword in text for keyword in ['scroll', 'doomscroll', 'social media', 'instagram', 'tiktok', 'facebook']):
+            hours = duration // 60
+            if hours >= 3:
+                return f"Congratulations! You've achieved Olympic-level thumb exercise for {hours} hours. That's about as many calories as breathing. Now go touch grass! 🌱"
+            else:
+                return "Professional doomscrolling! Your thumb got a workout, but your brain cells are filing for unemployment. Time for a reality check! 📱➡️🚶"
         
         if category == 'exercise' or 'walk' in text:
             return "Look at you moving your body! Revolutionary concept. Keep it up, champ! 💪"
@@ -190,7 +239,8 @@ Generate your roast/motivation response:
             return "Wow, learning something? Your brain cells are probably confused by the sudden activity. Impressive!"
         elif category == 'entertainment':
             if 'netflix' in text or 'tv' in text or 'movie' in text:
-                return "Watched more shows? Inspirational. Truly. Your couch misses you when you're gone."
+                hours = duration // 60
+                return f"Watched shows for {hours}+ hours? Your couch is permanently molded to your shape. That's maybe 20 calories total - congratulations! 📺"
             return "Another day, another masterclass in professional time-wasting. Chef's kiss! 👌"
         elif category == 'work':
             return "Actually being productive? Who are you and what did you do with the real slacker?"
