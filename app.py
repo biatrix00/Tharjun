@@ -1089,10 +1089,35 @@ class MotivAgentWeb:
                     
                     {f'<div style="margin: 1rem 0; color: #94a3b8; font-size: 0.95rem; padding: 0.8rem; background: rgba(255, 255, 255, 0.02); border-radius: 8px; border-left: 3px solid #667eea;"><strong>Context:</strong> {" • ".join(context_info)}</div>' if context_info else ''}
                     
-                    <div class="roast-message">
-                        <strong>🎭 RoastBot Says:</strong><br>
-                        {activity['motivation_message']}
                     </div>
+                """, unsafe_allow_html=True)
+                
+                # Use Streamlit components for roast message instead of HTML
+                with st.container():
+                    st.markdown("""
+                    <div style="
+                        background: linear-gradient(135deg, rgba(255, 59, 48, 0.15) 0%, rgba(255, 149, 0, 0.1) 100%);
+                        backdrop-filter: blur(15px);
+                        border: 2px solid rgba(255, 59, 48, 0.4);
+                        padding: 1.8rem;
+                        border-radius: 16px;
+                        margin: 1.5rem 0;
+                        color: #ffffff;
+                        box-shadow: 0 12px 35px rgba(255, 59, 48, 0.25), 0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+                        position: relative;
+                        overflow: hidden;
+                        font-size: 1.05rem;
+                        line-height: 1.6;
+                        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+                        animation: roastGlow 0.6s ease-out;
+                    ">
+                        <div style="color: #ffcc02; text-shadow: 0 2px 10px rgba(255, 204, 2, 0.4); font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;">
+                            🎭 RoastBot Says:
+                        </div>
+                        """ + activity['motivation_message'] + """
+                        <div style="position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; opacity: 0.7;">🎭</div>
+                    </div>
+                    """, unsafe_allow_html=True)
                 </div>
                 
                 @keyframes slideInUp {{
