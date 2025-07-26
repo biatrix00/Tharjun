@@ -1,0 +1,29 @@
+[
+  {
+    "date": "2025-07-26T09:59:01.083852",
+    "activities": [
+      {
+        "text": "read for exams",
+        "category": "study",
+        "duration": 30,
+        "intensity": "medium",
+        "confidence": 0.2857142857142857,
+        "calories_burned": 30,
+        "motivation_message": "Wow, learning something? Your brain cells are probably confused by the sudden activity. Impressive!",
+        "productivity_score": 9
+      },
+      {
+        "text": "did some exercise",
+        "category": "exercise",
+        "duration": 30,
+        "intensity": "medium",
+        "confidence": 0.47058823529411764,
+        "calories_burned": 240,
+        "motivation_message": "Look at you moving your body! Revolutionary concept. Keep it up, champ! \ud83d\udcaa",
+        "productivity_score": 8
+      }
+    ],
+    "total_calories": 270,
+    "avg_productivity": 8.5
+  }
+]
