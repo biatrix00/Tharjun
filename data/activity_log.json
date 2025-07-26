@@ -89,5 +89,65 @@
     ],
     "total_calories": 90,
     "avg_productivity": 10.0
+  },
+  {
+    "date": "2025-07-26T16:06:02.774184",
+    "activities": [
+      {
+        "text": "i doomscrolled for 5 hours",
+        "category": "other",
+        "subcategory": "general",
+        "duration": 300,
+        "intensity": "medium",
+        "mood": "neutral",
+        "context": {},
+        "confidence": 0.0,
+        "parsed_elements": {
+          "has_duration": true,
+          "has_mood_indicator": false,
+          "has_intensity_modifier": false,
+          "has_location": false,
+          "social_activity": false
+        },
+        "sequence_order": 1,
+        "is_first": true,
+        "is_last": true,
+        "calories_burned": 300,
+        "motivation_message": "Five hours of doomscrolling?  Honey, you've mastered the art of achieving maximum negativity with minimal effort.  But hey, at least you\u2019re *consistently* unproductive \u2013 that's something, right? Now, go conquer a real challenge!",
+        "productivity_score": 3
+      }
+    ],
+    "total_calories": 300,
+    "avg_productivity": 3.0
+  },
+  {
+    "date": "2025-07-26T16:09:54.066100",
+    "activities": [
+      {
+        "text": "doomscrolled for 300 minutes",
+        "category": "other",
+        "subcategory": "general",
+        "duration": 300,
+        "intensity": "medium",
+        "mood": "neutral",
+        "context": {},
+        "confidence": 0.0,
+        "parsed_elements": {
+          "has_duration": true,
+          "has_mood_indicator": false,
+          "has_intensity_modifier": false,
+          "has_location": false,
+          "social_activity": false
+        },
+        "sequence_order": 1,
+        "is_first": true,
+        "is_last": true,
+        "calories_burned": 300,
+        "motivation_message": "Three hundred minutes of doomscrolling?  Honey, that's five hours you could've spent building a robot overlord to finally end your suffering... or at least, finding a less depressing rabbit hole.  Now get off the internet and go conquer something *actually* productive.",
+        "productivity_score": 3
+      }
+    ],
+    "total_calories": 300,
+    "avg_productivity": 3.0
   }
 ]
