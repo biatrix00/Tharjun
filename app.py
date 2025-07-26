@@ -287,6 +287,211 @@ class MotivAgentWeb:
         .stProgress > div > div > div > div {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
+        
+        /* Scroll Stack Statistics Styles */
+        .stats-scroll-stack {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .stats-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .stats-header h3 {
+            color: #1a202c;
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stats-subtitle {
+            color: #718096;
+            font-size: 0.8rem;
+            font-style: italic;
+            margin-top: 0.25rem;
+        }
+        
+        .scroll-stack-container {
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        .stack-card {
+            position: relative;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            transform-origin: top center;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stack-card:hover {
+            transform: translateY(-8px) scale(1.02) rotateX(5deg);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        
+        .stack-card[data-index="0"] {
+            transform: translateY(0px) scale(1);
+            z-index: 4;
+        }
+        
+        .stack-card[data-index="1"] {
+            transform: translateY(-8px) scale(0.98);
+            z-index: 3;
+        }
+        
+        .stack-card[data-index="2"] {
+            transform: translateY(-16px) scale(0.96);
+            z-index: 2;
+        }
+        
+        .stack-card[data-index="3"] {
+            transform: translateY(-24px) scale(0.94);
+            z-index: 1;
+        }
+        
+        .card-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .stack-card:hover .card-glow {
+            opacity: 1;
+        }
+        
+        .warning-card {
+            background: linear-gradient(135deg, rgba(254, 242, 242, 0.9) 0%, rgba(254, 226, 226, 0.8) 100%);
+            border-color: rgba(245, 101, 101, 0.3);
+        }
+        
+        .warning-glow {
+            background: linear-gradient(135deg, rgba(245, 101, 101, 0.1) 0%, rgba(239, 68, 68, 0.1) 100%);
+        }
+        
+        .metric-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-align: center;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a202c;
+            text-align: center;
+            margin-bottom: 0.25rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metric-label {
+            font-size: 0.85rem;
+            color: #4a5568;
+            text-align: center;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        
+        .card-progress {
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+            transition: width 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .warning-pulse {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        
+        /* Scroll-inspired stacking animation */
+        @keyframes stackEntry {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.8) rotateX(-15deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotateX(0deg);
+            }
+        }
+        
+        .stack-card {
+            animation: stackEntry 0.6s ease-out;
+        }
+        
+        .stack-card[data-index="1"] {
+            animation-delay: 0.1s;
+        }
+        
+        .stack-card[data-index="2"] {
+            animation-delay: 0.2s;
+        }
+        
+        .stack-card[data-index="3"] {
+            animation-delay: 0.3s;
+        }
         </style>
         """, unsafe_allow_html=True)
         
@@ -299,48 +504,61 @@ class MotivAgentWeb:
         </div>
         """, unsafe_allow_html=True)
         
-        # Clean Sidebar
+        # Enhanced Sidebar with Scroll Stack Animation
         with st.sidebar:
-            st.markdown('<div class="sidebar-content">', unsafe_allow_html=True)
-            st.markdown("### Statistics")
+            st.markdown("""
+            <div class="stats-scroll-stack">
+                <div class="stats-header">
+                    <h3>📊 Statistics Dashboard</h3>
+                    <div class="stats-subtitle">Your productivity journey</div>
+                </div>
+            """, unsafe_allow_html=True)
             
             streak_info = st.session_state.memory.get_streak_info()
             
-            # Clean metrics
+            # Enhanced stacked metrics with scroll-inspired animations
             st.markdown(f"""
-            <div class="metric-container">
-                <h2 style="color: #e74c3c;">🔥</h2>
-                <h3>{streak_info['current_streak']}</h3>
-                <p>Current Streak</p>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            st.markdown(f"""
-            <div class="metric-container">
-                <h2 style="color: #3498db;">📊</h2>
-                <h3>{streak_info['total_sessions']}</h3>
-                <p>Total Sessions</p>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            st.markdown(f"""
-            <div class="metric-container">
-                <h2 style="color: #27ae60;">🏆</h2>
-                <h3>{streak_info['longest_streak']}</h3>
-                <p>Best Streak</p>
-            </div>
+            <div class="scroll-stack-container">
+                <div class="stack-card" data-index="0">
+                    <div class="card-glow"></div>
+                    <div class="metric-icon">🔥</div>
+                    <div class="metric-value">{streak_info['current_streak']}</div>
+                    <div class="metric-label">Current Streak</div>
+                    <div class="card-progress" style="width: {min(streak_info['current_streak'] * 10, 100)}%"></div>
+                </div>
+                
+                <div class="stack-card" data-index="1">
+                    <div class="card-glow"></div>
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-value">{streak_info['total_sessions']}</div>
+                    <div class="metric-label">Total Sessions</div>
+                    <div class="card-progress" style="width: {min(streak_info['total_sessions'] * 5, 100)}%"></div>
+                </div>
+                
+                <div class="stack-card" data-index="2">
+                    <div class="card-glow"></div>
+                    <div class="metric-icon">🏆</div>
+                    <div class="metric-value">{streak_info['longest_streak']}</div>
+                    <div class="metric-label">Best Streak</div>
+                    <div class="card-progress" style="width: {min(streak_info['longest_streak'] * 10, 100)}%"></div>
+                </div>
             """, unsafe_allow_html=True)
             
             if streak_info['is_streak_broken']:
                 st.markdown(f"""
-                <div class="metric-container" style="border-left: 3px solid #e74c3c;">
-                    <h2 style="color: #e74c3c;">⏰</h2>
-                    <h3>{streak_info['days_inactive']}</h3>
-                    <p>Days Inactive</p>
+                <div class="stack-card warning-card" data-index="3">
+                    <div class="card-glow warning-glow"></div>
+                    <div class="metric-icon">⏰</div>
+                    <div class="metric-value">{streak_info['days_inactive']}</div>
+                    <div class="metric-label">Days Inactive</div>
+                    <div class="warning-pulse"></div>
                 </div>
                 """, unsafe_allow_html=True)
             
-            st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown("""
+            </div>
+            </div>
+            """, unsafe_allow_html=True)
             
             # Progress visualization
             if streak_info['current_streak'] > 0:
